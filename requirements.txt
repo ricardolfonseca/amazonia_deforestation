@@ -1,0 +1,13 @@
+pandas
+geopandas
+numpy
+matplotlib
+seaborn
+folium
+earthengine-api
+google-cloud-storage
+scikit-learn
+lightgbm
+shapely
+openpyxl
+unidecode

@@ -1,0 +1,15 @@
+# Python temporary files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Earth Engine credentials and other temps
+earthengine-project.json
+Forecast*
+
+# Older files
+*old_old
+
+# Big files - don't version control
+model/data/shapefile/
+model/data/raw/fires/
