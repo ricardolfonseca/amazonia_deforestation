@@ -49,6 +49,27 @@ pip install -r requirements.txt
 
 ---
 
+## 🗂️ Optional Raw Files
+
+To reproduce the full pipeline from raw geospatial data, you may optionally download the following files. These are **not required** if you're working directly with the cleaned and integrated datasets already provided in the repository.
+
+- 🗺️ **Shapefile (DETER deforestation alerts)**:  
+  [Download from Google Drive](https://drive.google.com/file/d/1ynOiSeX7aQWXz0BBhAEpOm9GMKxVGKBW/view?usp=sharing)
+
+- 🔥 **GeoJSON (Fire outbreaks from FIRMS 2016–2025)**:  
+  [Download from Google Drive](https://drive.google.com/file/d/1JtdgzR2VXMZ4hn3CpoNqMrDKm1d7C6BO/view?usp=sharing)
+
+Once downloaded, place the files in the following local directories (create them if needed):
+
+```
+model/data/shapefile/
+model/data/raw/fires/
+```
+
+> ⚠️ These files are ignored by Git and not versioned due to size limitations.
+
+---
+
 ## 🚧 Roadmap
 
 - ✅ Exploratory and spatial data analysis

@@ -1,0 +1,12 @@
+Optional raw data files for full pipeline (not required if using integrated datasets):
+
+1. Shapefile (DETER deforestation alerts):
+https://drive.google.com/file/d/1ynOiSeX7aQWXz0BBhAEpOm9GMKxVGKBW/view?usp=sharing
+
+2. GeoJSON (Fire outbreaks from FIRMS 2016–2025):
+https://drive.google.com/file/d/1JtdgzR2VXMZ4hn3CpoNqMrDKm1d7C6BO/view?usp=sharing
+
+Place the downloaded files in:
+
+- model/data/shapefile/
+- model/data/raw/fires/
