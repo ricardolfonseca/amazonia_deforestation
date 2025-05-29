@@ -13,6 +13,12 @@ This repository contains the final project for my MBA in Data Science, focused o
 
 ---
 
+## 🏃 How to run the project
+
+- Simply run `main.py` on your local IDE.
+
+---
+
 ## 📁 Project Structure
 
 ```
@@ -73,7 +79,7 @@ model/data/raw/fires/
 ## 🚧 Roadmap
 
 - ✅ Exploratory and spatial data analysis
-- ✅ Integration of fire, population, and exploitation indicators
+- ✅ Integration of environmental variables: fires, rain and farming
 - 🔜 Data preparation for ML modeling
 - 🔜 Forecasting Amazon deforestation using ML (Random Forest, LightGBM, etc.)
 - 🔜 Interactive Dashboard and report
@@ -84,4 +90,4 @@ model/data/raw/fires/
 
 **Ricardo Fonseca**  
 MBA in Data Science — Autónoma Academy  
-[LinkedIn](https://www.linkedin.com/in/ricardolfonseca)
+[LinkedIn](https://www.linkedin.com/in/ricardolopesfonseca/)
