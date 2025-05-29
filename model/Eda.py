@@ -24,8 +24,8 @@ class Eda:
 
     def numeric_statistics(self):
         '''
-        Calcula e exibe as estatísticas descritivas (count, mean, std, min, 25%, 50%, 75%, max)
-        para todas as colunas numéricas, e salva em CSV.
+        Calculates and displays descriptive statistics (count, mean, std, min, 25%, 50%, 75%, max)
+        For all numeric columns, and saves as CSV.
         '''
         num = self.__df.select_dtypes(include='number')                 # Selects only numeric columns
         stats = num.describe().transpose()                              # Transpose for better readability     
