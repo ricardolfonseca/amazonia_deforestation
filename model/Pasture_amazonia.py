@@ -1,4 +1,4 @@
-# model/Farmland_amazonia.py
+# model/pasture_amazonia.py
 
 import os
 import ee
@@ -7,18 +7,18 @@ import geopandas as gpd
 
 from config import *
 
-class Farmland_amazonia:
+class Pasture_amazonia:
     '''
-    Extracts the annual farmland area in Legal Amazon
+    Extracts the annual pasture area in Legal Amazon
     (class 15 in MapBiomas Collection 9) and generates a CSV
-    with one row per year: year, farmland_area_ha.
+    with one row per year: year, pasture_area_ha.
     '''
 
     def __init__(self):
         self.__start_year = START_YEAR
         self.__end_year   = 2023                        # last complete year
-        self.__data_dir   = FARMLAND_DIR
-        self.__csv_path  = DF_FARMLAND
+        self.__data_dir   = PASTURE_DIR
+        self.__csv_path  = DF_PASTURE
         self.__credentials    = EE_CREDENTIALS          # Earth Engine credentials
 
 
@@ -32,9 +32,9 @@ class Farmland_amazonia:
         '''
         1) Initializes EE and loads the Legal Amazon boundary
         2) For each year in the interval, selects the classification band
-           from MapBiomas, filters the 'farmland' class (code 15),
+           from MapBiomas, filters the 'pasture' class (code 15),
            sums the area (m² → ha) over the entire Legal Amazon
-        3) Builds a DataFrame with columns: year, farmland_area_ha
+        3) Builds a DataFrame with columns: year, pasture_area_ha
         4) Saves to CSV and returns the DataFrame
         '''
         self.init_ee()
@@ -52,7 +52,7 @@ class Farmland_amazonia:
         for year in range(self.__start_year, self.__end_year + 1):          # anual loop
 
             img = ee.Image(asset).select(f'classification_{year}')          # classification image for the year
-            mask = img.eq(15)                                               # mask for the 'farmland' class (code 15)   
+            mask = img.eq(15)                                               # mask for the 'pasture' class (code 15)   
             area_m2 = mask.multiply(ee.Image.pixelArea()).reduceRegion(     # sum pixel area (m²)
                 reducer   = ee.Reducer.sum(),
                 geometry  = region,
@@ -60,10 +60,10 @@ class Farmland_amazonia:
                 maxPixels = 1e13
             ).get(f'classification_{year}')
 
-            farmland_area_ha = ee.Number(area_m2).divide(10000).getInfo()   # convert to 'ha' and get value
-            records.append({'year': year, 'farmland_area_ha': farmland_area_ha})
+            pasture_area_ha = ee.Number(area_m2).divide(10000).getInfo()   # convert to 'ha' and get value
+            records.append({'year': year, 'pasture_area_ha': pasture_area_ha})
 
         df = pd.DataFrame(records)
         df.to_csv(self.__csv_path, index=False)
-        print(f'✅ Farmland processed and saved to: {self.__csv_path}')     # Save the DataFrame to CSV
+        print(f'✅ Pasture processed and saved to: {self.__csv_path}')     # Save the DataFrame to CSV
         return df

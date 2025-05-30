@@ -21,13 +21,13 @@ SHAPEFILE_AMAZONIA   = os.path.join(SHAPEFILE_DIR, 'brazilian_legal_amazon.shp')
 DEFORESTATION_DIR = os.path.join(RAW_DATA_DIR, 'deforestation')
 FIRES_DIR = os.path.join(RAW_DATA_DIR, 'fires')
 PRECIPITATION_DIR   = os.path.join(RAW_DATA_DIR, 'precipitation')
-FARMLAND_DIR       = os.path.join(RAW_DATA_DIR, 'farmland')
+PASTURE_DIR       = os.path.join(RAW_DATA_DIR, 'pasture')
 
 # Individual datasets
 DF_DEFORESTATION = os.path.join(DEFORESTATION_DIR, 'deforestation_amazonia_daily.csv')
 DF_FIRES = os.path.join(FIRES_DIR, 'fires_amazonia_daily.csv')
 DF_PRECIPITATION = os.path.join(PRECIPITATION_DIR, 'precipitation_amazonia_daily.csv')
-DF_FARMLAND = os.path.join(FARMLAND_DIR, 'farmland_amazonia_yearly.csv')
+DF_PASTURE = os.path.join(PASTURE_DIR, 'pasture_amazonia_yearly.csv')
 
 # Merged dataset
 DATASET_MERGED = os.path.join(RAW_DATA_DIR, 'amazonia_complete_dataset.csv')

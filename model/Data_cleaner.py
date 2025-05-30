@@ -56,10 +56,10 @@ class Data_cleaner:
         print(f'✅ Filtered from {start.date()} to {end.date()}, total {len(self.__df)} rows.')
 
 
-    def extend_farmland(self, end_year: int, end_month: int):
+    def extend_pasture(self, end_year: int, end_month: int):
         '''
         Ensures the daily index goes up to end_year/end_month, and
-        fills 'farmland_area_ha' in new days with the last known value
+        fills 'pasture_area_ha' in new days with the last known value
         in 2023 (or the last day before the cutoff).
         '''
         # 1) Create the full daily index
@@ -68,18 +68,18 @@ class Data_cleaner:
         full_idx = pd.date_range(start, end, freq='D')
         self.__df = self.__df.reindex(full_idx)
 
-        # 2) Identify the last 'real' farmland value before 2024
+        # 2) Identify the last 'real' pasture value before 2024
         cutoff = pd.Timestamp(year=2023, month=12, day=31)
-        hist = self.__df.loc[:cutoff, 'farmland_area_ha'].dropna()
+        hist = self.__df.loc[:cutoff, 'pasture_area_ha'].dropna()
         last_val = hist.iloc[-1] if not hist.empty else 0.0
 
         # 3) Fill all NaNs (including 2024+) with this value
-        self.__df['farmland_area_ha'].fillna(last_val, inplace=True)
+        self.__df['pasture_area_ha'].fillna(last_val, inplace=True)
 
-        print(f'✅ Farmland extended to {end.date()}, using {last_val:.2f} ha/day for {end_year}-{end_month:02d}.')
+        print(f'✅ Pasture extended to {end.date()}, using {last_val:.2f} ha/day for {end_year}-{end_month:02d}.')
         
 
-    def save_and_get_df(self) -> pd.DataFrame:
+    def save_and_get_df(self):
         '''
         Saves the final DataFrame (with datetime index) to DATASET_CLEAN
         and returns it.

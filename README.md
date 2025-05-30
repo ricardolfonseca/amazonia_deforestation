@@ -12,6 +12,7 @@ This repository contains the final project for my MBA in Data Science, focused o
 - Share insights on Amazon forest degradation based on public and official data.
 
 
+
 ## 🏃 How to run the project
 
 - Simply run `main.py` on your local IDE.

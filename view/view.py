@@ -6,7 +6,7 @@ import pandas as pd
 from model.Deforestation_amazonia import *
 from model.Fires_Amazonia import *
 from model.Precipitation_amazonia import *
-from model.Farmland_amazonia import *
+from model.Pasture_amazonia import *
 from controller.controller import *
 from model.Data_cleaner import *
 from model.Eda import *
@@ -58,13 +58,13 @@ def main():
                 df_prec = Precipitation_amazonia().prepare_dataset()
             print(df_prec.head())
 
-            # Farmland
-            if os.path.exists(DF_FARMLAND):
-                print(f"✅ Farmland already exists: {DF_FARMLAND}")
-                df_farm = pd.read_csv(DF_FARMLAND)
+            # pasture
+            if os.path.exists(DF_PASTURE):
+                print(f"✅ pasture already exists: {DF_PASTURE}")
+                df_farm = pd.read_csv(DF_PASTURE)
             else:
-                print("=== Processing farmland ===")
-                df_farm = Farmland_amazonia().process()
+                print("=== Processing pasture ===")
+                df_farm = Pasture_amazonia().process()
             print(df_farm.head())
 
             # Final merge
@@ -77,8 +77,8 @@ def main():
         cleaner = Data_cleaner(df_merged)
         cleaner.remove_duplicates()
 
-        # Extend farmland until Mar/2025
-        cleaner.extend_farmland(2025, 3)
+        # Extend pasture until Mar/2025
+        cleaner.extend_pasture(2025, 3)
 
         # Filter by temporal interval with deforestation data
         cleaner.filter_by_time_interval(2016, 8, 2025, 3)

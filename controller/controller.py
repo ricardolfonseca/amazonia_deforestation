@@ -7,14 +7,14 @@ from config import *
 
 def merge_datasets():
     """
-    Reads the four datasets (deforestation, fires, precipitation, and farmland),
+    Reads the four datasets (deforestation, fires, precipitation, and pasture),
     merges them into a single daily DataFrame, and saves it with the 'date' column as the time index.
     """
     # 1) Load each individual CSV
     df_defor = pd.read_csv(DF_DEFORESTATION)
     df_fires = pd.read_csv(DF_FIRES)
     df_prec  = pd.read_csv(DF_PRECIPITATION)
-    df_farm  = pd.read_csv(DF_FARMLAND)
+    df_farm  = pd.read_csv(DF_PASTURE)
 
     # 2) Extract year, month, day from precipitation (if needed)
     df_prec['date'] = pd.to_datetime(df_prec['date'])
@@ -27,7 +27,7 @@ def merge_datasets():
     # 3) Rename other columns to avoid collisions and use English names
     df_defor = df_defor.rename(columns={'area_ha': 'deforestation_area_ha'})
     df_fires = df_fires.rename(columns={'focos': 'fires'})
-    df_farm  = df_farm.rename(columns={'area_ha': 'farmland_area_ha'})
+    df_farm  = df_farm.rename(columns={'area_ha': 'pasture_area_ha'})
 
     # 4) Merge daily data: deforestation + fires + precipitation
     df = (
@@ -36,16 +36,16 @@ def merge_datasets():
         .merge(df_prec,  on=['year', 'month', 'day'], how='outer')
     )
 
-    # 5) Farmland annual → daily average
+    # 5) pasture annual → daily average
     df_farm['days_in_year'] = df_farm['year'].apply(
         lambda y: 366 if calendar.isleap(y) else 365
     )
-    df_farm['farmland_area_ha'] = (
-        df_farm['farmland_area_ha'] / df_farm['days_in_year']
+    df_farm['pasture_area_ha'] = (
+        df_farm['pasture_area_ha'] / df_farm['days_in_year']
     )
 
     # Keep only what is needed (year + daily area) – remove days_in_year
-    df_farm = df_farm[['year', 'farmland_area_ha']]
+    df_farm = df_farm[['year', 'pasture_area_ha']]
 
     # 6) Merge by 'year' – replicate daily
     df = df.merge(df_farm, on='year', how='left')

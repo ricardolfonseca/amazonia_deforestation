@@ -49,7 +49,7 @@ class Eda:
             'deforestation_area_ha',
             'fires',
             'precipitation_mm',
-            'farmland_area_ha'
+            'pasture_area_ha'
         ]
         corr = self.__df[cols].corr()
 
@@ -72,7 +72,7 @@ class Eda:
             'deforestation_area_ha': 'Deforestation area (ha)',
             'fires':                 'Fires',
             'precipitation_mm':      'Precipitation (mm)',
-            'farmland_area_ha':     'Farmland area (ha/dia)'
+            'pasture_area_ha':       'Pasture area (ha/day)'
         }
         # Ensure the index is a DatetimeIndex for resampling
         df = self.__df.copy()
