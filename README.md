@@ -2,7 +2,7 @@
 
 This repository contains the final project for my MBA in Data Science, focused on the deforestation of the Brazilian Legal Amazon. It integrates multiple environmental, geospatial, and socioeconomic datasets to analyze patterns and prepare for future machine learning modeling.
 
----
+
 
 ## 📌 Objectives
 
@@ -11,13 +11,12 @@ This repository contains the final project for my MBA in Data Science, focused o
 - Create ready-to-use datasets for machine learning models to predict deforestation.
 - Share insights on Amazon forest degradation based on public and official data.
 
----
 
 ## 🏃 How to run the project
 
 - Simply run `main.py` on your local IDE.
 
----
+
 
 ## 📁 Project Structure
 
@@ -34,7 +33,7 @@ This repository contains the final project for my MBA in Data Science, focused o
 ├── requirements.txt         # Required libraries
 ```
 
----
+
 
 ## 🔧 Requirements
 
@@ -46,14 +45,14 @@ pip install -r requirements.txt
 
 > ⚠️ Note: To run Earth Engine scripts, you need to add your credentials in `assets/earthengine-project.json`. However, all data analyses can be executed with the available local datasets.
 
----
+
 
 ## 📊 Data Sources
 
 - **Legal Amazon Shapefile**: https://terrabrasilis.dpi.inpe.br/geonetwork/srv/por/catalog.search#/metadata/f2153c4a-915b-48a6-8658-963bdce7366c
 - **Fire outbreaks, precipitation, and pasture data**: Extracted using Google Earth Engine (GEE) and stored in Google Cloud Storage (GCS) bucket
 
----
+
 
 ## 🗂️ Optional Raw Files
 
@@ -74,7 +73,7 @@ model/data/raw/fires/
 
 > ⚠️ These files are ignored by Git and not versioned due to size limitations.
 
----
+
 
 ## 🚧 Roadmap
 
@@ -84,7 +83,7 @@ model/data/raw/fires/
 - 🔜 Forecasting Amazon deforestation using ML (Random Forest, LightGBM, etc.)
 - 🔜 Interactive Dashboard and report
 
----
+
 
 ## 📬 Author
 
