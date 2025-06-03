@@ -11,6 +11,7 @@ import lightgbm as lgb
 from sklearn.linear_model import Lasso, LassoCV
 from sklearn.neural_network import MLPRegressor
 from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import TimeSeriesSplit
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from math import sqrt
@@ -353,7 +354,6 @@ class Forecast_amazonia:
 
         # === MLP Pipeline (Scaler + Early Stopping) ===
         print('\n-- MLP Pipeline (Scaler + ES) --')
-        from sklearn.preprocessing import StandardScaler
         pipe = Pipeline([
             ('scaler',  StandardScaler()),
             ('mlp',     MLPRegressor(
