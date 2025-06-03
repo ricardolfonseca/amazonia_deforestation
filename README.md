@@ -32,6 +32,7 @@ This project brings together several key subjects from my MBA in Data Science:
 - Explore temporal and spatial patterns of forest loss.
 - Create ready-to-use datasets for machine learning models to predict deforestation.
 - Share insights on Amazon forest degradation based on public and official data.
+- Predict deforestation changes based on current data.
 
 
 ## 🏃 How to run the project
