@@ -55,12 +55,8 @@ def merge_datasets():
     df = df.merge(df_farm, on='year', how='left')
 
     # 7) Create 'date' column and remove year, month, day
-    required_cols = {'year', 'month', 'day'}
-    if required_cols.issubset(df.columns):
-        df['date'] = pd.to_datetime(df[['year', 'month', 'day']])
-        df.drop(columns=['year', 'month', 'day'], inplace=True)
-    else:
-        raise ValueError(f'❌ Columns {required_cols} are required to generate the date.')
+    df['date'] = pd.to_datetime(df[['year', 'month', 'day']])
+    df.drop(columns=['year', 'month', 'day'], inplace=True)
 
     # 8) Sort and save the final CSV
     df = df.sort_values('date').set_index('date')
