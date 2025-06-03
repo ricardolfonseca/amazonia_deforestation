@@ -21,7 +21,7 @@ This project brings together several key subjects from my MBA in Data Science:
 - **Python Programming**: Full data analysis pipeline using Python libraries like Pandas, GeoPandas, NumPy, Matplotlib and more
 - **APIs**: Integration with Earth Engine API and GCS API for automated extraction and export
 - **Statistics and Predictive Analytics**: Statistical analysis to identify patterns and support forecasts
-- **Machine Learning & AI**: Preparation for predictive modeling using Random Forest, LightGBM, and XGBoost
+- **Machine Learning & AI**: Preparation for predictive modeling using LightGBM, Lasso Regression and Multi-layer Perceptron (MLP)
 - **Geospatial Analysis**: Combining shapefiles, raster data, and temporal-spatial trends
 - **Data Visualization**: Interactive visualization using Streamlit (to be included)
 
