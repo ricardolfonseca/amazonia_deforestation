@@ -18,10 +18,10 @@ class Precipitation_amazonia:
 
     def __init__(self):
         self.__start_year = START_YEAR
-        self.__end_year   = END_YEAR
-        self.__data_dir   = PRECIPITATION_DIR
-        self.__credentials      = EE_CREDENTIALS                     # Path to the Earth Engine credentials file
-        self.__gcbucket        = BUCKET_PRECIPITATION                # Google Cloud Storage bucket for precipitation data
+        self.__end_year = END_YEAR
+        self.__data_dir = PRECIPITATION_DIR
+        self.__credentials = EE_CREDENTIALS                     # Path to the Earth Engine credentials file
+        self.__gcbucket = BUCKET_PRECIPITATION                  # Google Cloud Storage bucket for precipitation data
         self.__monthly_template = 'rain_amazon_{year}_{month:02d}.csv'
         self.__daily_template = 'precipitation_amazon_daily.csv'
 
