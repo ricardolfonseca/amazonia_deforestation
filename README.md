@@ -20,9 +20,10 @@ This project brings together several key subjects from my MBA in Data Science:
 - **Big Data & Cloud**: Use of Google Earth Engine (EE) and Google Cloud Storage (GCS) to process large-scale geospatial and environmental datasets
 - **Python Programming**: Full data analysis pipeline using Python libraries like Pandas, GeoPandas, NumPy, Matplotlib and more
 - **APIs**: Integration with Earth Engine API and GCS API for automated extraction and export
+- **Statistics and Predictive Analytics**: Statistical analysis to identify patterns and support forecasts.
 - **Machine Learning & AI**: Preparation for predictive modeling using Random Forest, LightGBM, and XGBoost
 - **Geospatial Analysis**: Combining shapefiles, raster data, and temporal-spatial trends
-- **Dashboards**: Interactive visualization using Streamlit (to be included)
+- **Data Visualization**: Interactive visualization using Streamlit (to be included)
 
 
 ## 📌 Objectives
