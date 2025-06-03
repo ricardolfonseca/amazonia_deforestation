@@ -15,7 +15,7 @@ class Eda:
     '''
 
     def __init__(self):
-        os.makedirs(OUTPUT_DIR, exist_ok=True)                          # Confirms directory structure and loads the dataset
+        os.makedirs(OUTPUT_EDA_DIR, exist_ok=True)                          # Confirms directory structure and loads the dataset
         self.__df = pd.read_csv(
             DATASET_CLEAN,
             index_col='date'
@@ -35,7 +35,7 @@ class Eda:
         )
 
         print('\n🔢 Numeric statistics :\n', stats)
-        path = os.path.join(OUTPUT_DIR, 'numeric_statistics.csv')       # Saves the statistics to a CSV file
+        path = os.path.join(OUTPUT_EDA_DIR, 'numeric_statistics.csv')       # Saves the statistics to a CSV file
         stats.to_csv(path)
         print(f'✅ Statistics saved in: {path}')
 
@@ -56,7 +56,7 @@ class Eda:
         plt.figure(figsize=(8, 6))
         sns.heatmap(corr, annot=True, cmap='coolwarm', fmt='.2f')   # Creates a heatmap with annotations
         plt.title('Correlation Matrix')
-        path = os.path.join(OUTPUT_DIR, 'correlation_matrix.png')
+        path = os.path.join(OUTPUT_EDA_DIR, 'correlation_matrix.png')
         plt.tight_layout()
         plt.savefig(path)
         plt.close()
@@ -91,7 +91,7 @@ class Eda:
             plt.ylabel(label)
             plt.xticks(rotation=45)
             fname = f'annual_{col}.png'
-            path = os.path.join(OUTPUT_DIR, fname)
+            path = os.path.join(OUTPUT_EDA_DIR, fname)
             plt.tight_layout()
             plt.savefig(path)
             plt.close()
@@ -109,7 +109,7 @@ class Eda:
             plt.title(f'Histogram for {col}')
             plt.xlabel(col)
             plt.ylabel('Frequency')
-            path = os.path.join(OUTPUT_DIR, f'histogram_{col}.png')
+            path = os.path.join(OUTPUT_EDA_DIR, f'histogram_{col}.png')
             plt.tight_layout()
             plt.savefig(path)
             plt.close()
@@ -127,7 +127,7 @@ class Eda:
             sns.boxplot(x=self.__df[col])
             plt.title(f'Boxplot for {col}')
             plt.xlabel(col)
-            path = os.path.join(OUTPUT_DIR, f'boxplot_{col}.png')
+            path = os.path.join(OUTPUT_EDA_DIR, f'boxplot_{col}.png')
             plt.tight_layout()
             plt.savefig(path)
             plt.close()

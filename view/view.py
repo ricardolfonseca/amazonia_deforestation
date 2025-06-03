@@ -58,7 +58,7 @@ def main():
                 df_prec = Precipitation_amazonia().prepare_dataset()
             print(df_prec.head())
 
-            # pasture
+            # Pasture
             if os.path.exists(DF_PASTURE):
                 print(f"✅ pasture already exists: {DF_PASTURE}")
                 df_farm = pd.read_csv(DF_PASTURE)
@@ -95,5 +95,43 @@ def main():
     eda = Eda()
     eda.run_analysis()
 
+
+    # --- Machine Learning ---
+
+    # Instantiate the predictor.
+    # The dataset will be split by time into training and test sets with a 20% test size.
+    predictor = Forecast_amazonia(test_size=0.2)
+
+    # ────────────────────────────────────────────────────────────────────────────
+    # Round 1: Baseline models on raw features
+    #   • LightGBM with default settings
+    #   • Lasso (α=0.01)
+    #   • MLPRegressor (64-32 hidden layers)
+    #   – No normalization, no hyperparameter tuning
+    # ────────────────────────────────────────────────────────────────────────────
+    predictor.train_test_round_one()
+
+    # ────────────────────────────────────────────────────────────────────────────
+    # Round 2: Tuned hyperparameters on normalized data
+    #   • LightGBM (n_estimators=300, learning_rate=0.1, max_depth=12)
+    #   • Lasso (α=0.1)
+    #   • MLPRegressor (128-64-32 hidden layers, more iterations)
+    #   – Features are scaled via StandardScaler before training
+    # ────────────────────────────────────────────────────────────────────────────
+    predictor.train_test_round_two()
+
+    # ────────────────────────────────────────────────────────────────────────────
+    # Round 3: Advanced workflows
+    #   • LightGBM with early stopping (1,000 trees, rmse callback)
+    #   • LassoCV with TimeSeriesSplit (automatically selects α)
+    #   • MLP pipeline combining StandardScaler + MLPRegressor with early stopping
+    #   – Combines best practices: callbacks, cross-validation, and pipelines
+    # ────────────────────────────────────────────────────────────────────────────
+    predictor.train_test_round_three()
+
+    # now build & save the comparison table
+    predictor.save_metrics_per_model()
+
+    print()
 
     print("\n🏁 End of pipeline.\n")

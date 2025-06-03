@@ -37,6 +37,8 @@ DATASET_CLEAN = os.path.join(CLEAN_DATA, 'amazonia_dataset.csv')
 
 # Outputs
 OUTPUT_DIR = os.path.join(BASE_DIR, 'outputs')
+OUTPUT_EDA_DIR = os.path.join(OUTPUT_DIR, 'EDA')
+OUTPUT_FORECAST_DIR = os.path.join(OUTPUT_DIR, 'forecast')
 
 # Earth Engine credentials
 EE_CREDENTIALS = os.getenv(

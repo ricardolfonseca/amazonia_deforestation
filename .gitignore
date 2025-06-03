@@ -5,7 +5,6 @@ __pycache__/
 
 # Earth Engine credentials and other temps
 earthengine-project.json
-Forecast*
 
 # Older files
 *old_old
