@@ -27,8 +27,9 @@ class Fires_Amazonia:
             f'fires_{self.__start_year}_{self.__end_year}.geojson'
         )
         self.__csv_path = DF_FIRES
-
-        self.__credentials = EE_CREDENTIALS             # Path to the Earth Engine credentials file
+        
+        # Path to the Earth Engine credentials file
+        self.__credentials = EE_CREDENTIALS
 
 
     def init_ee(self):
