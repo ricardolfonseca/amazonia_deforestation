@@ -8,7 +8,6 @@ from shapely.geometry import mapping
 
 from config import *
 
-
 class Fires_Amazonia:
     '''
     Processes fire hotspots in the Legal Amazonia for the specified period,
