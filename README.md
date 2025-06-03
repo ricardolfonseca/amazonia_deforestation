@@ -68,8 +68,9 @@ pip install -r requirements.txt
 
 ## 📊 Data Sources
 
-- **Legal Amazon Shapefile**: https://terrabrasilis.dpi.inpe.br/geonetwork/srv/por/catalog.search#/metadata/f2153c4a-915b-48a6-8658-963bdce7366c
-- **Fire outbreaks, precipitation, and pasture data**: Extracted using Google Earth Engine (GEE) and stored in Google Cloud Storage (GCS) bucket
+- **Legal Amazon Shapefile**: [TerraBrasilis catalogue - Download](https://terrabrasilis.dpi.inpe.br/geonetwork/srv/eng/catalog.search#/metadata/d6289e13-c6f3-4103-ba83-13a8452d46cb)
+- **DETER deforestation alerts**: [TerraBrasilis catalogue - Download](https://terrabrasilis.dpi.inpe.br/geonetwork/srv/por/catalog.search#/metadata/f2153c4a-915b-48a6-8658-963bdce7366c)
+- **Fire outbreaks, precipitation, and pasture data**: Extracted using [Google Earth Engine (GEE)](https://earthengine.google.com/) and stored in Google Cloud Storage (GCS) bucket
 
 
 ## 🗂️ Optional Raw Files
