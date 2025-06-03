@@ -26,6 +26,26 @@ This project brings together several key subjects from my MBA in Data Science:
 - **Data Visualization**: Interactive visualization using Streamlit (to be included)
 
 
+## 🤖 Machine Learning Forecasting
+
+A key part of this project is the application of regression-based machine learning models to forecast deforestation trends in the Brazilian Amazon.
+
+Implemented in `model/Forecast_amazonia.py`, the forecasting workflow is structured into three progressive rounds:
+
+1. **Baseline models**: LightGBM, Lasso Regression, and Multi-layer Perceptron (MLP) using default parameters  
+2. **Tuned models on normalized data**: Hyperparameter tuning and feature scaling to improve accuracy  
+3. **Advanced workflows**: Integration of early stopping, cross-validation (TimeSeriesSplit), and pipelines (e.g., MLP + StandardScaler)
+
+Each model is evaluated using standard regression metrics:
+- **MAE** (Mean Absolute Error)
+- **RMSE** (Root Mean Squared Error)
+- **R²** (Coefficient of Determination)
+
+Predictions and metrics are plotted and exported in monthly aggregates, offering visual insight into performance and temporal trends.
+
+The final goal is to build robust models capable of anticipating forest loss based on historical patterns and environmental drivers.
+
+
 ## 📌 Objectives
 
 - Combine multiple data sources on deforestation, fire outbreaks, precipitation, population, and vegetation exploitation.
