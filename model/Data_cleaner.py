@@ -12,7 +12,7 @@ class Data_cleaner:
       - filter by time interval
     '''
 
-    def __init__(self, df: pd.DataFrame):
+    def __init__(self, df):
         '''
         Receives a DataFrame (after merge) and stores it internally for cleaning.
         Expects columns 'ano','mes','dia' initially, and that
@@ -56,7 +56,7 @@ class Data_cleaner:
         print(f'✅ Filtered from {start.date()} to {end.date()}, total {len(self.__df)} rows.')
 
 
-    def extend_pasture(self, end_year: int, end_month: int):
+    def extend_pasture(self, end_year, end_month):
         '''
         Ensures the daily index goes up to end_year/end_month, and
         fills 'pasture_area_ha' in new days with the last known value
