@@ -118,8 +118,8 @@ model/data/raw/fires/
 
 - ✅ Exploratory and spatial data analysis
 - ✅ Integration of environmental variables: fires, rain and farming
-- 🔜 Data preparation for ML modeling
-- 🔜 Forecasting Amazon deforestation using ML (Random Forest, LightGBM, etc.)
+- ✅ Data preparation for ML modeling
+- ✅ Forecasting Amazon deforestation using Machine Learning
 - 🔜 Interactive Dashboard and report
 
 
