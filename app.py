@@ -37,7 +37,7 @@ def main():
         The Amazon Legal region covers about 59% of Brazil's territory and is home to one of the world's richest biodiversities.  
         Unfortunately, this area faces significant human pressure, especially from deforestation and wildfires, impacting climate, soil, and local communities.
         
-        Because environmental sustainability is a topic I deeply care about, I chose to explore this challenge using data — diving into satellite records, climate indicators, and land use patterns to produce a comprehensive and data-driven analysis in this report. Here, you will find:
+        Because environmental sustainability is a topic I deeply care about, I chose to explore this challenge using data - diving into satellite records, climate indicators, and land use patterns to produce a comprehensive and data-driven analysis in this report. Here, you will find:
         1. **Introduction**: Context about the Amazon Legal region and Report objectives.
         2. **Interactive Map** (coming soon): Visualization of yearly loss of forest cover.
         3. **Exploratory Data Analysis (EDA)**: Charts and tables showing correlations, distributions, and historical patterns.
