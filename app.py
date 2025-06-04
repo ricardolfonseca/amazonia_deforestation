@@ -275,7 +275,7 @@ def main():
 
 
      # 4) Machine Learning
-    st.subheader('🤖 Machine Learning')
+    st.subheader('🤖 Machine Learning - Deforestation Prediction')
     st.markdown('---')
 
     # st.markdown('#### Machine Learning: Forecasting Deforestation Trends')
