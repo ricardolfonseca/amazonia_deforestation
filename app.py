@@ -399,26 +399,48 @@ def main():
 
     
     # === Round 1 (Always visible) ===
-    #
-    st.markdown('### 🔹 Round 1 (Baseline)')
-    st.markdown(
-        '''
-        In Round 1, we train LightGBM, Lasso, and MLP on raw (uncleaned) features with baseline hyperparameters.
-        '''
-    )
-
     def run_round1():
-        forecast = Forecast_amazonia(test_size=0.2)
-        st.session_state.forecast_obj = forecast
-        forecast.train_test_round_one()
-        # Store the Round 1 metrics‐dict
-        st.session_state.results_round1 = forecast._Forecast_amazonia__round_results.get('Round 1', {})
+        # Instead of retraining, load metrics for Round 1 from the three CSVs
+        lgb_df = pd.read_csv(
+            os.path.join(OUTPUT_FORECAST_DIR, 'lightgbm_metrics_across_rounds.csv'),
+            index_col=0
+        )
+        lasso_df = pd.read_csv(
+            os.path.join(OUTPUT_FORECAST_DIR, 'lasso_metrics_across_rounds.csv'),
+            index_col=0
+        )
+        mlp_df = pd.read_csv(
+            os.path.join(OUTPUT_FORECAST_DIR, 'mlp_metrics_across_rounds.csv'),
+            index_col=0
+        )
+
+        # Extract the “Round 1” row for each model family
+        # Build a dict with the same structure as Forecast_amazonia would have produced:
+        results = {
+            'LightGBM': {
+                'MAE':   float(lgb_df.loc['Round 1', 'MAE']),
+                'RMSE':  float(lgb_df.loc['Round 1', 'RMSE']),
+                'R2':    float(lgb_df.loc['Round 1', 'R2']),
+            },
+            'Lasso': {
+                'MAE':   float(lasso_df.loc['Round 1', 'MAE']),
+                'RMSE':  float(lasso_df.loc['Round 1', 'RMSE']),
+                'R2':    float(lasso_df.loc['Round 1', 'R2']),
+            },
+            'MLP': {
+                'MAE':   float(mlp_df.loc['Round 1', 'MAE']),
+                'RMSE':  float(mlp_df.loc['Round 1', 'RMSE']),
+                'R2':    float(mlp_df.loc['Round 1', 'R2']),
+            },
+        }
+
+        st.session_state.results_round1 = results
         st.session_state.round1_done = True
 
     if not st.session_state.round1_done:
         st.button('Run Round 1', key='btn_run_r1', on_click=run_round1)
     else:
-        # 1) Metrics plot and table side by side
+        # (display logic remains exactly as before)
         col1, col2 = st.columns(2)
         with col1:
             plot_metrics_plotly(
@@ -426,43 +448,61 @@ def main():
                 title='Round 1: MAE / RMSE / R² (All Models)'
             )
         with col2:
-            # HTML spacer: 2 line-breaks worth of vertical space
             st.markdown('<br><br><br>', unsafe_allow_html=True)
             df1 = pd.DataFrame(st.session_state.results_round1).T.rename_axis('Model')
             st.dataframe(df1.round(4), use_container_width=True)
 
-        # 2) Monthly Actual vs Predicted plot (full width)
         plot_monthly_deforestation('Round 1')
-
-        st.markdown('<br>', unsafe_allow_html=True)             # HTML spacer: line-breaks worth of vertical space
+        st.markdown('<br>', unsafe_allow_html=True)
         st.markdown(
             '''
             LightGBM made the closest predictions (error ~3.4) and explained about 39% of the variation, beating Lasso and MLP.
             
             Lasso was okay (error ~3.5, explained ~37%), and MLP struggled the most (error ~5.5, negative R²), showing that simple tree-based models work better on these raw features.
-            ''')
-    #
-    # === Round 2 (only after Round 1 completes) ===
-    #
-    if st.session_state.round1_done:
-        st.markdown('---')
-        st.markdown('### 🔹 Round 2 (Tuned + Normalized)')
-        st.markdown(
-            '''
-            In Round 2, we hyperparameter‐tune each algorithm and normalize features before training.
             '''
         )
 
+    # === Round 2 (only after Round 1 completes) ===
+    if st.session_state.round1_done:
         def run_round2():
-            forecast = st.session_state.forecast_obj
-            forecast.train_test_round_two()
-            st.session_state.results_round2 = forecast._Forecast_amazonia__round_results.get('Round 2', {})
+            # Load metrics for Round 2
+            lgb_df = pd.read_csv(
+                os.path.join(OUTPUT_FORECAST_DIR, 'lightgbm_metrics_across_rounds.csv'),
+                index_col=0
+            )
+            lasso_df = pd.read_csv(
+                os.path.join(OUTPUT_FORECAST_DIR, 'lasso_metrics_across_rounds.csv'),
+                index_col=0
+            )
+            mlp_df = pd.read_csv(
+                os.path.join(OUTPUT_FORECAST_DIR, 'mlp_metrics_across_rounds.csv'),
+                index_col=0
+            )
+
+            results = {
+                'LightGBM': {
+                    'MAE':   float(lgb_df.loc['Round 2', 'MAE']),
+                    'RMSE':  float(lgb_df.loc['Round 2', 'RMSE']),
+                    'R2':    float(lgb_df.loc['Round 2', 'R2']),
+                },
+                'Lasso': {
+                    'MAE':   float(lasso_df.loc['Round 2', 'MAE']),
+                    'RMSE':  float(lasso_df.loc['Round 2', 'RMSE']),
+                    'R2':    float(lasso_df.loc['Round 2', 'R2']),
+                },
+                'MLP': {
+                    'MAE':   float(mlp_df.loc['Round 2', 'MAE']),
+                    'RMSE':  float(mlp_df.loc['Round 2', 'RMSE']),
+                    'R2':    float(mlp_df.loc['Round 2', 'R2']),
+                },
+            }
+
+            st.session_state.results_round2 = results
             st.session_state.round2_done = True
 
         if not st.session_state.round2_done:
             st.button('Run Round 2', key='btn_run_r2', on_click=run_round2)
         else:
-            # 1) Metrics plot and table side by side
             col3, col4 = st.columns(2)
             with col3:
                 plot_metrics_plotly(
@@ -470,15 +510,12 @@ def main():
                     title='Round 2: MAE / RMSE / R² (All Models)'
                 )
             with col4:
-                # HTML spacer: 2 line-breaks worth of vertical space
                 st.markdown('<br><br><br>', unsafe_allow_html=True)
                 df2 = pd.DataFrame(st.session_state.results_round2).T.rename_axis('Model')
                 st.dataframe(df2.round(4), use_container_width=True)
 
-            # 2) Monthly Actual vs Predicted plot (full width)
             plot_monthly_deforestation('Round 2')
-
-            st.markdown('<br>', unsafe_allow_html=True)             # HTML spacer: line-breaks worth of vertical space
+            st.markdown('<br>', unsafe_allow_html=True)
             st.markdown(
                 '''
                 After tuning and scaling, LightGBM's RMSE rose slightly to ~3.58 (R² ≈ 0.33), and Lasso stayed about the same (RMSE ≈ 3.51, R² ≈ 0.36).
@@ -486,31 +523,50 @@ def main():
                 The MLP produced wildly exaggerated predictions—spiking to tens of millions of hectares in some months—which shows it is still unstable (RMSE ≈ 4.91, negative R²).
                 
                 In short, none of the models improved over Round 1, and the MLP's huge outliers underscore that LightGBM remains the most reliable choice.
-                ''')
+                '''
+            )
 
-    #
     # === Round 3 (only after Round 2 completes) ===
-    #
     if st.session_state.round2_done:
-        st.markdown('---')
-        st.markdown('### 🔹 Round 3 (Advanced Methods)')
-        st.markdown(
-            '''
-            In Round 3, we use early stopping (LightGBM), LassoCV with TimeSeriesSplit, and an MLP pipeline  
-            with scaling + early stopping.
-            '''
-        )
-
         def run_round3():
-            forecast = st.session_state.forecast_obj
-            forecast.train_test_round_three()
-            st.session_state.results_round3 = forecast._Forecast_amazonia__round_results.get('Round 3', {})
+            # Load metrics for Round 3
+            lgb_df = pd.read_csv(
+                os.path.join(OUTPUT_FORECAST_DIR, 'lightgbm_metrics_across_rounds.csv'),
+                index_col=0
+            )
+            lasso_df = pd.read_csv(
+                os.path.join(OUTPUT_FORECAST_DIR, 'lasso_metrics_across_rounds.csv'),
+                index_col=0
+            )
+            mlp_df = pd.read_csv(
+                os.path.join(OUTPUT_FORECAST_DIR, 'mlp_metrics_across_rounds.csv'),
+                index_col=0
+            )
+
+            results = {
+                'LightGBM': {
+                    'MAE':   float(lgb_df.loc['Round 3', 'MAE']),
+                    'RMSE':  float(lgb_df.loc['Round 3', 'RMSE']),
+                    'R2':    float(lgb_df.loc['Round 3', 'R2']),
+                },
+                'Lasso': {
+                    'MAE':   float(lasso_df.loc['Round 3', 'MAE']),
+                    'RMSE':  float(lasso_df.loc['Round 3', 'RMSE']),
+                    'R2':    float(lasso_df.loc['Round 3', 'R2']),
+                },
+                'MLP': {
+                    'MAE':   float(mlp_df.loc['Round 3', 'MAE']),
+                    'RMSE':  float(mlp_df.loc['Round 3', 'RMSE']),
+                    'R2':    float(mlp_df.loc['Round 3', 'R2']),
+                },
+            }
+
+            st.session_state.results_round3 = results
             st.session_state.round3_done = True
 
         if not st.session_state.round3_done:
             st.button('Run Round 3', key='btn_run_r3', on_click=run_round3)
         else:
-            # 1) Metrics plot and table side by side
             col5, col6 = st.columns(2)
             with col5:
                 plot_metrics_plotly(
@@ -518,21 +574,20 @@ def main():
                     title='Round 3: MAE / RMSE / R² (All Models)'
                 )
             with col6:
-                # HTML spacer: 2 line-breaks worth of vertical space
                 st.markdown('<br><br><br>', unsafe_allow_html=True)
                 df3 = pd.DataFrame(st.session_state.results_round3).T.rename_axis('Model')
                 st.dataframe(df3.round(4), use_container_width=True)
 
-            # 2) Monthly Actual vs Predicted plot (full width)
             plot_monthly_deforestation('Round 3')
-
-            st.markdown('<br>', unsafe_allow_html=True)             # HTML spacer: line-breaks worth of vertical space
+            st.markdown('<br>', unsafe_allow_html=True)
             st.markdown(
                 '''
                 With early stopping and cross-validation, LightGBM ES again wins (RMSE ≈ 3.36, R² ≈ 0.41), slightly ahead of the MLP pipeline (RMSE ≈ 3.48, R² ≈ 0.37) and LassoCV (RMSE ≈ 3.49, R² ≈ 0.37).
                 
                 The MLP pipeline has improved dramatically—no extreme spikes—but LightGBM ES remains the most accurate and reliable choice.
-                ''')
+                '''
+            )
+
 
 
 # === Final Recommendation (only after Round 3 completes) ===
@@ -601,6 +656,28 @@ def main():
             >🌱*If we want to change the future of the forest, we must first understand its present — and data is one of the strongest tools we have to do so.*
 
             ''')
+
+            # At the bottom, show a “Give me a star” button linking to your GitHub
+            st.markdown(
+                """
+                <div style="text-align:center; margin-top: 20px;">
+                    <a href="https://github.com/ricardolfonseca/amazonia_deforestation" target="_blank"
+                    style="
+                        background-color: #4CAF50;
+                        color: white;
+                        padding: 10px 20px;
+                        border: none;
+                        border-radius: 5px;
+                        text-decoration: none;
+                        font-size: 16px;
+                    ">
+                        ⭐️ If you liked my project, give it a star ⭐️
+                    </a>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
 
 if __name__ == '__main__':
     main()
