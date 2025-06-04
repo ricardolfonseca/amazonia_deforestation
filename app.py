@@ -520,7 +520,7 @@ def main():
                 '''
                 After tuning and scaling, LightGBM's RMSE rose slightly to ~3.58 (R² ≈ 0.33), and Lasso stayed about the same (RMSE ≈ 3.51, R² ≈ 0.36).
                 
-                The MLP produced wildly exaggerated predictions—spiking to tens of millions of hectares in some months—which shows it is still unstable (RMSE ≈ 4.91, negative R²).
+                The MLP produced wildly exaggerated predictions - spiking to tens of millions of hectares in some months - which shows it is still unstable (RMSE ≈ 4.91, negative R²).
                 
                 In short, none of the models improved over Round 1, and the MLP's huge outliers underscore that LightGBM remains the most reliable choice.
                 '''
@@ -584,7 +584,7 @@ def main():
                 '''
                 With early stopping and cross-validation, LightGBM ES again wins (RMSE ≈ 3.36, R² ≈ 0.41), slightly ahead of the MLP pipeline (RMSE ≈ 3.48, R² ≈ 0.37) and LassoCV (RMSE ≈ 3.49, R² ≈ 0.37).
                 
-                The MLP pipeline has improved dramatically—no extreme spikes—but LightGBM ES remains the most accurate and reliable choice.
+                The MLP pipeline has improved dramatically - no extreme spikes - but LightGBM ES remains the most accurate and reliable choice.
                 '''
             )
 
@@ -653,7 +653,7 @@ def main():
             
             
 
-            >🌱*If we want to change the future of the forest, we must first understand its present — and data is one of the strongest tools we have to do so.*
+            >🌱*If we want to change the future of the forest, we must first understand its present - and data is one of the strongest tools we have to do so.*
 
             ''')
 
