@@ -1,3 +1,4 @@
+streamlit
 pandas
 geopandas
 numpy
@@ -11,3 +12,6 @@ lightgbm
 shapely
 openpyxl
 unidecode
+plotly
+xgboost
+mlflow
