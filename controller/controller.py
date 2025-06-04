@@ -5,6 +5,9 @@ from config import *
 import pandas as pd
 import numpy as np
 import calendar
+import plotly.express as px
+import plotly.graph_objects as go
+import streamlit as st
 
 from sklearn.preprocessing import StandardScaler
 
@@ -148,3 +151,71 @@ def aggregate_monthly_df(df):
     df.index = pd.to_datetime(df.index)                             # Ensures the index is a DatetimeIndex  
     monthly = df.groupby(pd.Grouper(freq='ME')).sum()               # Group by month-end
     return monthly
+
+
+def plot_metrics_plotly(metrics_dict, title):
+    """
+    metrics_dict: 
+      { 'LightGBM': {'MAE':…, 'RMSE':…, 'R2':…}, 
+        'Lasso':    {'MAE':…, 'RMSE':…, 'R2':…}, 
+        'MLP':      {'MAE':…, 'RMSE':…, 'R2':…} }
+    Builds a DataFrame, then uses px.bar(...) with barmode='group'.
+    """
+    dfm = pd.DataFrame(metrics_dict).T.reset_index().rename(columns={'index': 'Model'})
+    # dfm columns = ['Model', 'MAE', 'RMSE', 'R2']
+    fig = px.bar(
+        dfm,
+        x='Model',
+        y=['MAE', 'RMSE', 'R2'],
+        barmode='group',
+        title=title,
+        labels={'value': 'Metric value', 'variable': 'Metric'}
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
+
+def plot_monthly_deforestation(round_name):
+    """
+    Reads: OUTPUT_FORECAST_DIR / f'{round_name.lower().replace(" ", "_")}_monthly.csv'
+    Expects columns: ['date','deforestation_ha','pred_LightGBM','pred_Lasso','pred_MLP'].
+    Plots a bar (Actual) + lines (pred_LightGBM, pred_Lasso, pred_MLP), with x = month end.
+    """
+    csv_fname = f'{round_name.lower().replace(" ", "_")}_monthly.csv'
+    csv_path = os.path.join(OUTPUT_FORECAST_DIR, csv_fname)
+    if not os.path.exists(csv_path):
+        st.warning(f'No monthly CSV found for {round_name} at:\n{csv_path}')
+        return
+
+    dfm = pd.read_csv(csv_path, parse_dates=['date'])
+
+    fig = go.Figure()
+    # Bar for actual deforestation
+    fig.add_trace(
+        go.Bar(
+            x=dfm['date'],
+            y=dfm['deforestation_ha'],
+            name='Actual',
+            marker_color='lightgray',
+        )
+    )
+    # Lines for each prediction column
+    for col in ['pred_LightGBM', 'pred_Lasso', 'pred_MLP']:
+        fig.add_trace(
+            go.Scatter(
+                x=dfm['date'],
+                y=dfm[col],
+                mode='lines+markers',
+                name=col.replace('pred_', 'Pred: '),
+            )
+        )
+
+    fig.update_layout(
+        title=f'{round_name}: Actual vs Predicted (Monthly)',
+        xaxis_title='',
+        yaxis_title='Total Deforestation (ha)',
+        legend_title='Legend',
+        margin=dict(l=20, r=20, t=40, b=20),
+    )
+    # Format x-axis as Month-Year, rotated 45°
+    fig.update_xaxes(tickformat='%b-%Y', tickangle=45)
+    st.plotly_chart(fig, use_container_width=True)

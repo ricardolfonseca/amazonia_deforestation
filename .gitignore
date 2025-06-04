@@ -5,9 +5,10 @@ __pycache__/
 
 # Earth Engine credentials and other temps
 earthengine-project.json
+*parquet
 
 # Older files
-*old_old
+*old*
 
 # Big files - don't version control
 model/data/shapefile/
