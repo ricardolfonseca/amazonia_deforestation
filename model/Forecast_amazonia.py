@@ -28,24 +28,28 @@ class Forecast_amazonia:
     def __init__(self, test_size):
         self.__test_size = test_size
         self.__dataset_path = DATASET_CLEAN
-        self.__round_results = {}                   # Dictionary to store results for each round
+        self.__round_results = {}                        # Dictionary to store results for each round of train and test
 
 
     def plot_and_save_metrics(self, round_name, metrics):
         '''
-        Plot MAE, RMSE and R² for each model in `metrics` and save figure to OUTPUT_FORECAST_DIR.
-        metrics: { model_name: {'MAE':…, 'RMSE':…, 'R2':…}, … }
+        Generate a bar plot showing MAE, RMSE, and R² for each model,
+        and save the figure to the forecast output directory.
+        Parameters:
+        - round_name: string identifying the training round (e.g. "Round 1")
+        - metrics: dictionary with model evaluation results
         '''
-        models = list(metrics.keys())
-        mae   = [metrics[m]['MAE'] for m in models]
+        models = list(metrics.keys())                    # Get the list of model names from the dictionary keys
+        # Extract metric values for each model
+        mae   = [metrics[m]['MAE'] for m in models]        
         rmse  = [metrics[m]['RMSE'] for m in models]
         r2    = [metrics[m]['R2'] for m in models]
 
-        x = range(len(models))
+        x = range(len(models))                           # Create a numeric range to position each model on the x-axis
         plt.figure(figsize=(10, 6))
-        plt.bar([p - 0.2 for p in x], mae,   width=0.2, label='MAE')
-        plt.bar(x, rmse,  width=0.2, label='RMSE')
-        plt.bar([p + 0.2 for p in x], r2,    width=0.2, label='R²')
+        plt.bar([p - 0.2 for p in x], mae,   width=0.2, label='MAE')    # Plot MAE bars slightly to the left
+        plt.bar(x, rmse,  width=0.2, label='RMSE')       # Plot RMSE bars in the center
+        plt.bar([p + 0.2 for p in x], r2,    width=0.2, label='R²')     # Plot R² bars slightly to the right
         plt.xticks(x, models, rotation=30)
         plt.xlabel('Model')
         plt.ylabel('Metric Value')
@@ -53,7 +57,7 @@ class Forecast_amazonia:
         plt.legend()
         plt.tight_layout()
 
-        os.makedirs(OUTPUT_FORECAST_DIR, exist_ok=True)
+        os.makedirs(OUTPUT_FORECAST_DIR, exist_ok=True)  # Create the output directory if it doesn't exist
         filename = f'{round_name.lower().replace(' ', '_')}_metrics.png'
         path = os.path.join(OUTPUT_FORECAST_DIR, filename)
         plt.savefig(path)
@@ -73,7 +77,7 @@ class Forecast_amazonia:
         # 2a) Reset index → 'date' column (keep as datetime for plotting)
         df_monthly = df_monthly.reset_index().rename(columns={'index': 'date'})
 
-        # 2b) For the CSV, we can still write full YYYY‐MM‐DD if desired
+        # 2b) For the CSV, write full YYYY‐MM‐DD
         df_to_save = df_monthly.copy()
         df_to_save['date'] = df_to_save['date'].dt.strftime('%Y-%m-%d')
 
@@ -135,6 +139,7 @@ class Forecast_amazonia:
 
         os.makedirs(OUTPUT_FORECAST_DIR, exist_ok=True)
 
+        # define how to identify models belonging to each family based on their name
         for fam_label, match_fn in families.items():
             # build one dict per round
             data = {}
@@ -143,8 +148,8 @@ class Forecast_amazonia:
                 candidates = [m for m in results if match_fn(m)]
                 if not candidates:
                     continue
-                model_name = candidates[0]
-                data[round_name] = results[model_name]
+                model_name = candidates[0]                # only 1 match per round
+                data[round_name] = results[model_name]    # store metrics for this round
 
             # DataFrame: index=rounds, columns=metrics
             df = pd.DataFrame(data).T  # transpose so rounds are rows
@@ -152,7 +157,7 @@ class Forecast_amazonia:
             df = df[['MAE', 'RMSE', 'R2']]
 
             # print to console
-            print(f'\n=== {fam_label.upper()} metrics across rounds ===')
+            print(f'\n--- {fam_label.upper()} metrics across rounds ---')
             print(df)
 
             # save to CSV
@@ -166,49 +171,55 @@ class Forecast_amazonia:
         '''
         Round 1: Baseline models on raw features.
         '''
-        print('\n===== Round 1: Baseline Models =====')
-        # Unpack test_index along with train/test splits
+        print('\n---- Round 1: Baseline Models -----')
+         # Prepare the dataset (features and target), split into train and test sets
         x_train, x_test, y_train, y_test, test_index = prepare_data_for_ml(
             self.__dataset_path, self.__test_size
         )
 
-        results = {}
+        results = {}                                      # Store evaluation metrics for each model
 
-        # === LightGBM ===
+        # --- LightGBM ---
         print('\n-- LightGBM --')
-        model_lgb = lgb.LGBMRegressor(random_state=42, n_jobs=-1, verbose=-1)
+        model_lgb = lgb.LGBMRegressor(random_state=42, n_jobs=-1, verbose=-1)    # Gradient boosting model, n_jobs=-1 - use all CPU cores; verbose=-1 - suppress training logs
         model_lgb.fit(x_train, y_train)
         y_pred_lgb = model_lgb.predict(x_test)
+
+        # Evaluate predictions using common regression metrics
         mse_lgb   = mean_squared_error(y_test, y_pred_lgb)
         rmse_lgb  = sqrt(mse_lgb)
         mae_lgb   = mean_absolute_error(y_test, y_pred_lgb)
         r2_lgb    = r2_score(y_test, y_pred_lgb)
         print(f'MSE:  {mse_lgb:.4f}\nRMSE: {rmse_lgb:.4f}\nMAE:  {mae_lgb:.4f}')
-        results['LightGBM'] = {'MAE': mae_lgb, 'RMSE': rmse_lgb, 'R2': r2_lgb}
+        results['LightGBM'] = {'MAE': mae_lgb, 'RMSE': rmse_lgb, 'R2': r2_lgb}   # store results
 
-        # === Lasso ===
+        # --- Lasso ---
         print('\n-- Lasso --')
-        model_lasso = Lasso(alpha=0.01, max_iter=10_000)
+        model_lasso = Lasso(alpha=0.01, max_iter=10_000)            # Linear model with L1 regularization,  alpha=0.01 - light L1 regularization; max_iter=10_000 - allow enough iterations for convergence
         model_lasso.fit(x_train, y_train)
         y_pred_lasso = model_lasso.predict(x_test)
-        mse_lasso   = mean_squared_error(y_test, y_pred_lasso)
+
+        # Evaluate predictions using common regression metrics
+        mse_lasso   = mean_squared_error(y_test, y_pred_lasso)      
         rmse_lasso  = sqrt(mse_lasso)
         mae_lasso   = mean_absolute_error(y_test, y_pred_lasso)
         r2_lasso    = r2_score(y_test, y_pred_lasso)
         print(f'MSE:  {mse_lasso:.4f}\nRMSE: {rmse_lasso:.4f}\nMAE:  {mae_lasso:.4f}')
-        results['Lasso'] = {'MAE': mae_lasso, 'RMSE': rmse_lasso, 'R2': r2_lasso}
+        results['Lasso'] = {'MAE': mae_lasso, 'RMSE': rmse_lasso, 'R2': r2_lasso}    # store results
 
-        # === MLPRegressor ===
-        print('\n-- MLPRegressor --')
+        # --- MLPRegressor ---
+        print('\n-- MLPRegressor --')                               # MLP with two hidden layers (64, 32); max 500 iterations
         model_mlp = MLPRegressor(hidden_layer_sizes=(64, 32), max_iter=500, random_state=42)
         model_mlp.fit(x_train, y_train)
         y_pred_mlp = model_mlp.predict(x_test)
-        mse_mlp   = mean_squared_error(y_test, y_pred_mlp)
+
+        # Evaluate predictions using common regression metrics
+        mse_mlp   = mean_squared_error(y_test, y_pred_mlp)           
         rmse_mlp  = sqrt(mse_mlp)
         mae_mlp   = mean_absolute_error(y_test, y_pred_mlp)
         r2_mlp    = r2_score(y_test, y_pred_mlp)
         print(f'MSE:  {mse_mlp:.4f}\nRMSE: {rmse_mlp:.4f}\nMAE:  {mae_mlp:.4f}')
-        results['MLP'] = {'MAE': mae_mlp, 'RMSE': rmse_mlp, 'R2': r2_mlp}
+        results['MLP'] = {'MAE': mae_mlp, 'RMSE': rmse_mlp, 'R2': r2_mlp}        # store results
 
         # Store metrics
         self.__round_results['Round 1'] = results
@@ -232,7 +243,7 @@ class Forecast_amazonia:
         '''
         Round 2: Tuned hyperparameters on normalized features.
         '''
-        print('\n===== Round 2: Tuned + Normalized =====')
+        print('\n----- Round 2: Tuned + Normalized -----')
         x_train, x_test, y_train, y_test, test_index = prepare_data_for_ml(
             self.__dataset_path, self.__test_size
         )
@@ -241,48 +252,58 @@ class Forecast_amazonia:
 
         results = {}
 
-        # === LightGBM (tuned) ===
+        # --- LightGBM (tuned) ---
         print('\n-- LightGBM (tuned) --')
         model_lgb = lgb.LGBMRegressor(
-            n_estimators=300, learning_rate=0.1, max_depth=12,
-            random_state=42, n_jobs=-1, verbose=-1
+            n_estimators=300,                            # Number of boosting rounds (trees) 
+            learning_rate=0.1,                           # Step size shrinkage to prevent overfitting
+            max_depth=12,                                # Maximum depth of each tree
+            random_state=42,                             # Ensures reproducibility
+            n_jobs=-1,                                   # Use all available cores
+            verbose=-1                                   # Suppress output during training
         )
         model_lgb.fit(x_train_n, y_train)
         y_pred_lgb = model_lgb.predict(x_test_n)
+
+        # Evaluate predictions using common regression metrics
         mse_lgb   = mean_squared_error(y_test, y_pred_lgb)
         rmse_lgb  = sqrt(mse_lgb)
         mae_lgb   = mean_absolute_error(y_test, y_pred_lgb)
         r2_lgb    = r2_score(y_test, y_pred_lgb)
         print(f'MSE:  {mse_lgb:.4f}\nRMSE: {rmse_lgb:.4f}\nMAE:  {mae_lgb:.4f}')
-        results['LightGBM (tuned)'] = {'MAE': mae_lgb, 'RMSE': rmse_lgb, 'R2': r2_lgb}
+        results['LightGBM (tuned)'] = {'MAE': mae_lgb, 'RMSE': rmse_lgb, 'R2': r2_lgb}        # store results
 
-        # === Lasso (tuned) ===
+        # --- Lasso (tuned) ---
         print('\n-- Lasso (tuned) --')
-        model_lasso = Lasso(alpha=0.1, max_iter=20_000)
+        model_lasso = Lasso(alpha=0.1, max_iter=20_000)        # stronger regularization (alpha=0.1) and higher max iterations (20k)
         model_lasso.fit(x_train_n, y_train)
         y_pred_lasso = model_lasso.predict(x_test_n)
+
+        # Evaluate predictions using common regression metrics
         mse_lasso   = mean_squared_error(y_test, y_pred_lasso)
         rmse_lasso  = sqrt(mse_lasso)
         mae_lasso   = mean_absolute_error(y_test, y_pred_lasso)
         r2_lasso    = r2_score(y_test, y_pred_lasso)
         print(f'MSE:  {mse_lasso:.4f}\nRMSE: {rmse_lasso:.4f}\nMAE:  {mae_lasso:.4f}')
-        results['Lasso (tuned)'] = {'MAE': mae_lasso, 'RMSE': rmse_lasso, 'R2': r2_lasso}
+        results['Lasso (tuned)'] = {'MAE': mae_lasso, 'RMSE': rmse_lasso, 'R2': r2_lasso}    # store results
 
-        # === MLPRegressor (tuned) ===
+        # --- MLPRegressor (tuned) ---
         print('\n-- MLPRegressor (tuned) --')
         model_mlp = MLPRegressor(
-            hidden_layer_sizes=(128, 64, 32),
-            max_iter=1000,
+            hidden_layer_sizes=(128, 64, 32),                  # Three hidden layers with decreasing size (additional layers to capture more complext patterns)
+            max_iter=1000,                                     # Increased iterations to improve convergence
             random_state=42
         )
         model_mlp.fit(x_train_n, y_train)
         y_pred_mlp = model_mlp.predict(x_test_n)
+
+        # Evaluate predictions using common regression metrics
         mse_mlp   = mean_squared_error(y_test, y_pred_mlp)
         rmse_mlp  = sqrt(mse_mlp)
         mae_mlp   = mean_absolute_error(y_test, y_pred_mlp)
         r2_mlp    = r2_score(y_test, y_pred_mlp)
         print(f'MSE:  {mse_mlp:.4f}\nRMSE: {rmse_mlp:.4f}\nMAE:  {mae_mlp:.4f}')
-        results['MLP (tuned)'] = {'MAE': mae_mlp, 'RMSE': rmse_mlp, 'R2': r2_mlp}
+        results['MLP (tuned)'] = {'MAE': mae_mlp, 'RMSE': rmse_mlp, 'R2': r2_mlp}        # store results
 
         # Store metrics
         self.__round_results['Round 2'] = results
@@ -306,19 +327,25 @@ class Forecast_amazonia:
         '''
         Round 3: Advanced workflows (early stopping, CV, pipelines).
         '''
-        print('\n===== Round 3: Advanced Methods =====')
+        print('\n----- Round 3: Advanced Methods -----')
         x_train, x_test, y_train, y_test, test_index = prepare_data_for_ml(
             self.__dataset_path, self.__test_size
         )
 
         results = {}
 
-        # === LightGBM Early Stopping ===
+        # --- LightGBM Early Stopping ---
         print('\n-- LightGBM Early Stopping --')
         model_lgb = lgb.LGBMRegressor(
-            n_estimators=1000, learning_rate=0.05, max_depth=10,
-            random_state=42, n_jobs=-1, verbose=-1
+            n_estimators=1000,                    # Max number of trees (will stop earlier if no improvement)
+            learning_rate=0.05,                   # Smaller learning rate for better generalization
+            max_depth=10,                         # Control tree complexity
+            random_state=42,
+            n_jobs=-1,
+            verbose=-1
         )
+
+        # Includes validation of RMSE, if no improvements in 50 rounds, stops
         model_lgb.fit(
             x_train, y_train,
             eval_set=[(x_test, y_test)],
@@ -326,6 +353,8 @@ class Forecast_amazonia:
             callbacks=[lgb.early_stopping(stopping_rounds=50), lgb.log_evaluation(period=0)]
         )
         y_pred_lgb = model_lgb.predict(x_test)
+
+        # Evaluate predictions using common regression metrics
         mse_lgb   = mean_squared_error(y_test, y_pred_lgb)
         rmse_lgb  = sqrt(mse_lgb)
         mae_lgb   = mean_absolute_error(y_test, y_pred_lgb)
@@ -333,18 +362,20 @@ class Forecast_amazonia:
         print(f'MSE:  {mse_lgb:.4f}\nRMSE: {rmse_lgb:.4f}\nMAE:  {mae_lgb:.4f}')
         results['LightGBM ES'] = {'MAE': mae_lgb, 'RMSE': rmse_lgb, 'R2': r2_lgb}
 
-        # === LassoCV (TimeSeriesSplit) ===
+        # --- LassoCV (TimeSeriesSplit) ---
         print('\n-- LassoCV (TimeSeriesSplit) --')
         tscv = TimeSeriesSplit(n_splits=5)
         model_lasso_cv = LassoCV(
-            alphas=[0.001, 0.01, 0.1, 1.0],
-            cv=tscv,
+            alphas=[0.001, 0.01, 0.1, 1.0],        # Try multiple regularization strengths
+            cv=tscv,                               # Time-aware cross-validation to preserve temporal order
             max_iter=20_000,
             random_state=42
         )
         model_lasso_cv.fit(x_train, y_train)
         print(f'Best alpha: {model_lasso_cv.alpha_:.4f}')
         y_pred_lasso = model_lasso_cv.predict(x_test)
+
+        # Evaluate predictions using common regression metrics
         mse_lasso   = mean_squared_error(y_test, y_pred_lasso)
         rmse_lasso  = sqrt(mse_lasso)
         mae_lasso   = mean_absolute_error(y_test, y_pred_lasso)
@@ -352,21 +383,23 @@ class Forecast_amazonia:
         print(f'MSE:  {mse_lasso:.4f}\nRMSE: {rmse_lasso:.4f}\nMAE:  {mae_lasso:.4f}')
         results['LassoCV'] = {'MAE': mae_lasso, 'RMSE': rmse_lasso, 'R2': r2_lasso}
 
-        # === MLP Pipeline (Scaler + Early Stopping) ===
+        # --- MLP Pipeline (Scaler + Early Stopping) ---
         print('\n-- MLP Pipeline (Scaler + ES) --')
         pipe = Pipeline([
-            ('scaler',  StandardScaler()),
+            ('scaler',  StandardScaler()),                # Normalize features before training MLP
             ('mlp',     MLPRegressor(
                 hidden_layer_sizes=(128, 64, 32),
-                early_stopping=True,
-                validation_fraction=0.1,
-                n_iter_no_change=20,
+                early_stopping=True,                      # Stop training if validation score stops improving
+                validation_fraction=0.1,                  # Use 10% of training data for validation
+                n_iter_no_change=20,                      # Stop after 20 rounds with no change
                 max_iter=2000,
                 random_state=42
             ))
         ])
         pipe.fit(x_train, y_train)
         y_pred_mlp = pipe.predict(x_test)
+
+        # Evaluate predictions using common regression metrics
         mse_mlp   = mean_squared_error(y_test, y_pred_mlp)
         rmse_mlp  = sqrt(mse_mlp)
         mae_mlp   = mean_absolute_error(y_test, y_pred_mlp)
