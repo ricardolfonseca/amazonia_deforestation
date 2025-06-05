@@ -678,32 +678,38 @@ def main():
             )
 
             
-            st.markdown('## 🔮 Future Research')
             st.markdown('---')
+            st.markdown('## 🌍 Conclusion and Future Research')
             
             st.markdown(
-                '''          
-                This project opens many doors for future exploration:
+                '''
+                This project set out to explore deforestation in the Brazilian Amazon not just as a statistical phenomenon, but as a complex, evolving process shaped by environmental, economic, and social forces.  
+                Through structured data analysis and machine learning forecasting, we sought to uncover patterns, anticipate future trends, and highlight areas of concern—empowering stakeholders with actionable insights.
             
-                - **Geospatial modeling**: Incorporating spatial autocorrelation or using CNNs over raster grids could improve granularity.  
-                - **Temporal forecasting**: Extend the time horizon into the future using models like Prophet, LSTM, or hybrid architectures.  
-                - **Feature enrichment**: Introduce variables such as economic indicators, land tenure, infrastructure expansion, or enforcement actions.  
-                - **Explainability**: Apply SHAP or permutation importance to better understand which features drive deforestation in each region.
+                More than just a technical exercise, this work demonstrates how data can play a critical role in **environmental awareness and decision-making**.
+                From identifying seasonal spikes in forest loss to estimating future degradation under current trends, the project shows how computational tools can bring clarity to urgent ecological challenges.
             
-                In short, this work is a stepping stone—**and the forest still has many stories to tell, hidden in the data**.
+                ---
+            
+                ### 🔮 Future directions
+            
+                The opportunities for continued research and impact are vast:
+            
+                - **Policy simulations**: How might deforestation evolve under stricter environmental enforcement, or increased agricultural incentives?  
+                - **Localised insights**: Applying this analysis at the municipal or protected-area level to support regional planning.  
+                - **Cross-layer integration**: Combining satellite imagery, biodiversity data, and economic datasets for richer contextual understanding.  
+                - **Community involvement**: Translating analytical results into formats accessible to local communities and policymakers.
+            
+                >🌱*If we want to change the future of the forest, we must first understand its present - and data is one of the strongest tools we have to do so.*
                 '''
             )
+
             
             st.markdown(
             '''
             ---
             I hope you enjoyed this report as much as I enjoyed creating it!
             If you have any questions, feedback, or suggestions for improvement, please feel free to reach out.
-            
-            
-
-            >🌱*If we want to change the future of the forest, we must first understand its present - and data is one of the strongest tools we have to do so.*
-
             ''')
 
             # At the bottom, show a “Give me a star” button linking to your GitHub
