@@ -673,12 +673,39 @@ def main():
                 - R² of 0.4147 means it explains about 41% of the variance on unseen data.
                 3. **Speed & Flexibility**  
                 - LightGBM trains relatively quickly and handles non-linear patterns well.  
-                - Early stopping in Round 3 also prevents overfitting, making the model more robust.
-                
-                **In conclusion, LightGBM with early stopping** produces the lowest RMSE and highest R², making it the best all-around pick for forecasting Amazon deforestation under this pipeline.  
+                - Early stopping in Round 3 also prevents overfitting, making the model more robust. 
                 '''
             )
-        
+
+            
+            st.markdown('## 🔍 Conclusion and Future Research')
+            st.markdown('---')
+            
+            st.markdown(
+                '''
+                After running three increasingly sophisticated rounds of testing, **LightGBM consistently emerged as the best-performing model**, especially when paired with early stopping in Round 3.  
+                It achieved the lowest RMSE and highest R², demonstrating both precision and reliability across different configurations.
+            
+                While Lasso was stable and useful for feature selection, its performance lagged behind tree-based methods. The MLP regressor, although improved with normalization and early stopping, still showed signs of instability and sensitivity to hyperparameters.
+            
+                **Key takeaway:** tree-based models like LightGBM are particularly well-suited for modeling deforestation patterns, especially when trained on structured, tabular datasets with temporal features.
+            
+                ---
+            
+                ### 🔮 What’s next?
+            
+                This project opens many doors for future exploration:
+            
+                - **Geospatial modeling**: Incorporating spatial autocorrelation or using CNNs over raster grids could improve granularity.  
+                - **Temporal forecasting**: Extend the time horizon into the future using models like Prophet, LSTM, or hybrid architectures.  
+                - **Feature enrichment**: Introduce variables such as economic indicators, land tenure, infrastructure expansion, or enforcement actions.  
+                - **Explainability**: Apply SHAP or permutation importance to better understand which features drive deforestation in each region.
+            
+                In short, this work is a stepping stone—**and the forest still has many stories to tell, hidden in the data**.
+                '''
+            )
+
+            
             # st.markdown('---')
             st.markdown(
             '''
