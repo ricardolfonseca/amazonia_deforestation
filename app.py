@@ -42,8 +42,7 @@ def main():
         2. **Interactive Map** (coming soon): Visualization of yearly loss of forest cover.
         3. **Exploratory Data Analysis (EDA)**: Charts and tables showing correlations, distributions, and historical patterns.
         4. **Machine Learning**: Predictive models to anticipate deforestation trends.
-
-        
+        5. **Conclusion and Future Research**: Conclusions on the best performing model and suggestions about future studies.
 
         > *Disclaimer: This project was developed as part of the final assessment for an MBA in Data Science, with the primary goal of applying and demonstrating the knowledge and skills acquired throughout the course. All data used was obtained from publicly available sources. While every effort was made to ensure data accuracy and integrity through proper preprocessing, integration, and validation techniques, **some inconsistencies or limitations may still be present**. Therefore, the results presented here — including predictions, trends, and visualizations — are intended for **educational and analytical purposes only**, and should not be interpreted as definitive or official figures.*
 
@@ -65,7 +64,7 @@ def main():
     The core dataset is based on the DETER deforestation alerts from INPE's TerraBrasilis platform, which provides georeferenced daily records of deforestation in the Legal Amazon.
     Additional environmental and anthropogenic factors—such as wildfire hotspots, rainfall, and land use were extracted from Google Earth Engine and stored in cloud buckets for local processing.
     
-    After acquiring the raw data, I performed extensive ETL (Extract, Transform, Load) procedures:
+    After acquiring the raw data, I performed ETL (Extract, Transform, Load) procedures:
     - Filtering and cleaning shapefiles for the Legal Amazon territory.
     - Aggregating data by day, month, and municipality.
     - Integrating multiple sources into a unified time-series dataset.
@@ -84,7 +83,7 @@ def main():
     st.markdown(
     '''    
     Three rounds of regression-based models were developed to forecast short-term deforestation:
-    - Baseline models: such as Lasso Regression and LightGBM with default parameters.
+    - Baseline models: models using default parameters, data without normalization applied.
     - Tuned models: using pipelines and cross-validation for hyperparameter optimization.
     - Advanced setups: including early stopping, scaling, and model selection based on multiple performance metrics.
 
@@ -137,13 +136,13 @@ def main():
     st.markdown('<br>', unsafe_allow_html=True)             # HTML spacer: line-breaks worth of vertical space
     st.markdown(
     '''    
-    The dataset used in this analysis comprises **3 165 daily observations** from the Brazilian Legal Amazon region. It includes four key variables identified as relevant drivers or indicators of deforestation:
+    The dataset used in this analysis comprises **3 165 daily observations** from the Brazilian Legal Amazon region, from 2016/08 to 2025/04. It includes four key variables identified as relevant drivers or indicators of deforestation:
     - **Deforestation Area (ha)**: daily area in hectares where forest cover was lost.
     - **Fires**: number of fire hotspots detected.
     - **Precipitation (mm)**: daily rainfall levels.
     - **Pasture Area (ha)**: annual pasture extent, assigned to each day to match the granularity of other variables.
 
-    From the descriptive statistics, we observe a **highly skewed distribution** of deforestation events, with a median of 0 ha, indicating that most days record no official alerts, while some extreme cases surpass 435k ha in a single day.
+    From the descriptive statistics, we observe a **highly skewed distribution** of deforestation events, with a median of 0 ha, indicating that most days record no official alerts, while some extreme cases surpass 435k ha.
     The presence of such outliers required careful normalization during data preprocessing.
     Similarly, the number of fire hotspots varies widely, ranging from 0 to 892 per day, with a mean of 82.65, reinforcing the episodic and spatially concentrated nature of wildfires in the region.
     
@@ -438,6 +437,18 @@ def main():
         st.session_state.round1_done = True
 
     if not st.session_state.round1_done:
+        with st.expander("ℹ️ Show configuration details for Round 1", expanded=True):
+            st.markdown('''
+            **Round 1 – Baseline Models**
+    
+            - All models are trained on raw features without normalization  
+            - **LightGBM**: `n_estimators=100`, `learning_rate=0.1`  
+            - **Lasso**: `alpha=0.01`, `max_iter=10,000`  
+            - **MLP**: `(64, 32)` hidden layers, `max_iter=500`  
+    
+            This establishes a reference to evaluate gains in future rounds.
+            ''')
+        
         st.button('Run Round 1', key='btn_run_r1', on_click=run_round1)
     else:
         # (display logic remains exactly as before)
@@ -501,6 +512,18 @@ def main():
             st.session_state.round2_done = True
 
         if not st.session_state.round2_done:
+            with st.expander("ℹ️ Show configuration details for Round 2", expanded=True):
+                st.markdown('''
+                **Round 2 – Tuned & Normalized**
+        
+                - All input features are normalized (StandardScaler)  
+                - **LightGBM**: `n_estimators=300`, `learning_rate=0.1`, `max_depth=12`  
+                - **Lasso**: `alpha=0.1`, `max_iter=20,000`  
+                - **MLP**: `(128, 64, 32)` hidden layers, `max_iter=1000`  
+        
+                This round tests if tuning + scaling improves prediction performance.
+                ''')
+        
             st.button('Run Round 2', key='btn_run_r2', on_click=run_round2)
         else:
             col3, col4 = st.columns(2)
@@ -565,7 +588,19 @@ def main():
             st.session_state.round3_done = True
 
         if not st.session_state.round3_done:
+            with st.expander("ℹ️ Show configuration details for Round 3", expanded=True):
+                st.markdown('''
+                **Round 3 – Advanced Techniques**
+        
+                - **LightGBM**: same as Round 2 but with **early stopping (50 rounds)**  
+                - **LassoCV**: automatic alpha selection using **TimeSeriesSplit (5 folds)**  
+                - **MLP Pipeline**: `(128, 64, 32)` layers + StandardScaler + **early stopping**  
+        
+                This round emphasizes model robustness and generalization.
+                ''')
+        
             st.button('Run Round 3', key='btn_run_r3', on_click=run_round3)
+
         else:
             col5, col6 = st.columns(2)
             with col5:
