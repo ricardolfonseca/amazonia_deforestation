@@ -437,7 +437,7 @@ def main():
         st.session_state.round1_done = True
 
     if not st.session_state.round1_done:
-        with st.expander("ℹ️ Show configuration details for Round 1", expanded=True):
+        with st.expander("ℹ️ Show configuration details for Round 1", expanded=False):
             st.markdown('''
             **Round 1 – Baseline Models**
     
@@ -512,7 +512,7 @@ def main():
             st.session_state.round2_done = True
 
         if not st.session_state.round2_done:
-            with st.expander("ℹ️ Show configuration details for Round 2", expanded=True):
+            with st.expander("ℹ️ Show configuration details for Round 2", expanded=False):
                 st.markdown('''
                 **Round 2 – Tuned & Normalized**
         
@@ -588,7 +588,7 @@ def main():
             st.session_state.round3_done = True
 
         if not st.session_state.round3_done:
-            with st.expander("ℹ️ Show configuration details for Round 3", expanded=True):
+            with st.expander("ℹ️ Show configuration details for Round 3", expanded=False):
                 st.markdown('''
                 **Round 3 – Advanced Techniques**
         
