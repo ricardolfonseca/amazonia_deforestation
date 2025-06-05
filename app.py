@@ -678,22 +678,11 @@ def main():
             )
 
             
-            st.markdown('## 🔍 Conclusion and Future Research')
+            st.markdown('## 🔮 Future Research')
             st.markdown('---')
             
             st.markdown(
-                '''
-                After running three increasingly sophisticated rounds of testing, **LightGBM consistently emerged as the best-performing model**, especially when paired with early stopping in Round 3.  
-                It achieved the lowest RMSE and highest R², demonstrating both precision and reliability across different configurations.
-            
-                While Lasso was stable and useful for feature selection, its performance lagged behind tree-based methods. The MLP regressor, although improved with normalization and early stopping, still showed signs of instability and sensitivity to hyperparameters.
-            
-                **Key takeaway:** tree-based models like LightGBM are particularly well-suited for modeling deforestation patterns, especially when trained on structured, tabular datasets with temporal features.
-            
-                ---
-            
-                ### 🔮 What’s next?
-            
+                '''          
                 This project opens many doors for future exploration:
             
                 - **Geospatial modeling**: Incorporating spatial autocorrelation or using CNNs over raster grids could improve granularity.  
@@ -704,9 +693,7 @@ def main():
                 In short, this work is a stepping stone—**and the forest still has many stories to tell, hidden in the data**.
                 '''
             )
-
             
-            # st.markdown('---')
             st.markdown(
             '''
             ---
