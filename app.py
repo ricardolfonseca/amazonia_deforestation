@@ -689,7 +689,6 @@ def main():
                 More than just a technical exercise, this work demonstrates how data can play a critical role in **environmental awareness and decision-making**.
                 From identifying seasonal spikes in forest loss to estimating future degradation under current trends, the project shows how computational tools can bring clarity to urgent ecological challenges.
             
-                ---
             
                 ### 🔮 Future directions
             
