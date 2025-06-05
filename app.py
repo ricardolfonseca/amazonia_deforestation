@@ -698,18 +698,18 @@ def main():
                 - **Localised insights**: Applying this analysis at the municipal or protected-area level to support regional planning.  
                 - **Cross-layer integration**: Combining satellite imagery, biodiversity data, and economic datasets for richer contextual understanding.  
                 - **Community involvement**: Translating analytical results into formats accessible to local communities and policymakers.
-            
-                >🌱*If we want to change the future of the forest, we must first understand its present - and data is one of the strongest tools we have to do so.*
                 '''
             )
+            st.markdown('<br>', unsafe_allow_html=True)             # HTML spacer: line-breaks worth of vertical space
+            st.markdown(    
+                '''
+                >🌱*If we want to change the future of the forest, we must first understand its present - and data is one of the strongest tools we have to do so.*
 
-            
-            st.markdown(
-            '''
             ---
             I hope you enjoyed this report as much as I enjoyed creating it!
             If you have any questions, feedback, or suggestions for improvement, please feel free to reach out.
-            ''')
+            '''
+            )
 
             # At the bottom, show a “Give me a star” button linking to your GitHub
             st.markdown(
