@@ -434,21 +434,22 @@ def main():
         }
 
         st.session_state.results_round1 = results
-        st.session_state.round1_done = True
-
-    if not st.session_state.round1_done:
-        with st.expander("ℹ️ Show configuration details for Round 1", expanded=False):
-            st.markdown('''
-            **Round 1 – Baseline Models**
-    
-            - All models are trained on raw features without normalization  
-            - **LightGBM**: `n_estimators=100`, `learning_rate=0.1`  
-            - **Lasso**: `alpha=0.01`, `max_iter=10,000`  
-            - **MLP**: `(64, 32)` hidden layers, `max_iter=500`  
-    
-            This establishes a reference to evaluate gains in future rounds.
-            ''')
         
+        st.session_state.round1_done = True
+        
+    with st.expander("ℹ️ Show configuration details for Round 1", expanded=False):
+        st.markdown('''
+        **Round 1 – Baseline Models**
+    
+        - All models are trained on raw features without normalization  
+        - **LightGBM**: `n_estimators=100`, `learning_rate=0.1`  
+        - **Lasso**: `alpha=0.01`, `max_iter=10,000`  
+        - **MLP**: `(64, 32)` hidden layers, `max_iter=500`  
+    
+        This establishes a reference to evaluate gains in future rounds.
+        ''')
+        
+    if not st.session_state.round1_done:
         st.button('Run Round 1', key='btn_run_r1', on_click=run_round1)
     else:
         # (display logic remains exactly as before)
@@ -510,20 +511,20 @@ def main():
 
             st.session_state.results_round2 = results
             st.session_state.round2_done = True
-
+            
+        with st.expander("ℹ️ Show configuration details for Round 2", expanded=False):
+            st.markdown('''
+            **Round 2 – Tuned & Normalized**
+        
+            - All input features are normalized (StandardScaler)  
+            - **LightGBM**: `n_estimators=300`, `learning_rate=0.1`, `max_depth=12`  
+            - **Lasso**: `alpha=0.1`, `max_iter=20,000`  
+            - **MLP**: `(128, 64, 32)` hidden layers, `max_iter=1000`  
+        
+            This round tests if tuning + scaling improves prediction performance.
+            ''')
+        
         if not st.session_state.round2_done:
-            with st.expander("ℹ️ Show configuration details for Round 2", expanded=False):
-                st.markdown('''
-                **Round 2 – Tuned & Normalized**
-        
-                - All input features are normalized (StandardScaler)  
-                - **LightGBM**: `n_estimators=300`, `learning_rate=0.1`, `max_depth=12`  
-                - **Lasso**: `alpha=0.1`, `max_iter=20,000`  
-                - **MLP**: `(128, 64, 32)` hidden layers, `max_iter=1000`  
-        
-                This round tests if tuning + scaling improves prediction performance.
-                ''')
-        
             st.button('Run Round 2', key='btn_run_r2', on_click=run_round2)
         else:
             col3, col4 = st.columns(2)
@@ -586,21 +587,20 @@ def main():
 
             st.session_state.results_round3 = results
             st.session_state.round3_done = True
+            
+        with st.expander("ℹ️ Show configuration details for Round 3", expanded=False):
+            st.markdown('''
+            **Round 3 – Advanced Techniques**
+        
+            - **LightGBM**: same as Round 2 but with **early stopping (50 rounds)**  
+            - **LassoCV**: automatic alpha selection using **TimeSeriesSplit (5 folds)**  
+            - **MLP Pipeline**: `(128, 64, 32)` layers + StandardScaler + **early stopping**  
+        
+            This round emphasizes model robustness and generalization.
+            ''')
 
         if not st.session_state.round3_done:
-            with st.expander("ℹ️ Show configuration details for Round 3", expanded=False):
-                st.markdown('''
-                **Round 3 – Advanced Techniques**
-        
-                - **LightGBM**: same as Round 2 but with **early stopping (50 rounds)**  
-                - **LassoCV**: automatic alpha selection using **TimeSeriesSplit (5 folds)**  
-                - **MLP Pipeline**: `(128, 64, 32)` layers + StandardScaler + **early stopping**  
-        
-                This round emphasizes model robustness and generalization.
-                ''')
-        
             st.button('Run Round 3', key='btn_run_r3', on_click=run_round3)
-
         else:
             col5, col6 = st.columns(2)
             with col5:
