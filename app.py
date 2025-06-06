@@ -42,7 +42,7 @@ def main():
         2. **Interactive Map** (coming soon): Visualization of yearly loss of forest cover.
         3. **Exploratory Data Analysis (EDA)**: Charts and tables showing correlations, distributions, and historical patterns.
         4. **Machine Learning**: Predictive models to anticipate deforestation trends.
-        5. **Conclusion & Future Research**: Conclusions on the best performing model and suggestions about future studies.
+        5. **Conclusion and Future Research**: Conclusions on the best performing model and suggestions about future studies.
 
         > *Disclaimer: This project was developed as part of the final assessment for an MBA in Data Science, with the primary goal of applying and demonstrating the knowledge and skills acquired throughout the course. All data used was obtained from publicly available sources. While every effort was made to ensure data accuracy and integrity through proper preprocessing, integration, and validation techniques, **some inconsistencies or limitations may still be present**. Therefore, the results presented here — including predictions, trends, and visualizations — are intended for **educational and analytical purposes only**, and should not be interpreted as definitive or official figures.*
 
@@ -677,12 +677,11 @@ def main():
                 '''
             )
 
-            
-            st.markdown('---')
-            st.markdown('## 🌍 Conclusion and Future Research')
-            
+            st.markdown('<br>', unsafe_allow_html=True)             # HTML spacer: line-breaks worth of vertical space
+            st.markdown('## 🌍 Conclusion and Future Research')            
             st.markdown(
                 '''            
+                ---
                 This project demonstrated how public data and open-source tools can be combined to analyze and forecast daily deforestation in the Brazilian Amazon.
             
                 The exploratory analysis revealed seasonal trends and an association between deforestation, fire outbreaks, and rainfall — highlighting the complexity of the phenomenon. While no definitive long-term growth trend was observed, the high variability reinforces the need for proactive monitoring tools.
