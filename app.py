@@ -682,9 +682,7 @@ def main():
             st.markdown('## 🌍 Conclusion and Future Research')
             
             st.markdown(
-                '''
-                ### 🔍 Conclusion & Future Research
-            
+                '''            
                 This project demonstrated how public data and open-source tools can be combined to analyze and forecast daily deforestation in the Brazilian Amazon.
             
                 The exploratory analysis revealed seasonal trends and an association between deforestation, fire outbreaks, and rainfall — highlighting the complexity of the phenomenon. While no definitive long-term growth trend was observed, the high variability reinforces the need for proactive monitoring tools.
