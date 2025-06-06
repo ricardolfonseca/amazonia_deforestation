@@ -42,7 +42,7 @@ def main():
         2. **Interactive Map** (coming soon): Visualization of yearly loss of forest cover.
         3. **Exploratory Data Analysis (EDA)**: Charts and tables showing correlations, distributions, and historical patterns.
         4. **Machine Learning**: Predictive models to anticipate deforestation trends.
-        5. **Conclusion and Future Research**: Conclusions on the best performing model and suggestions about future studies.
+        5. **Conclusion & Future Research**: Conclusions on the best performing model and suggestions about future studies.
 
         > *Disclaimer: This project was developed as part of the final assessment for an MBA in Data Science, with the primary goal of applying and demonstrating the knowledge and skills acquired throughout the course. All data used was obtained from publicly available sources. While every effort was made to ensure data accuracy and integrity through proper preprocessing, integration, and validation techniques, **some inconsistencies or limitations may still be present**. Therefore, the results presented here — including predictions, trends, and visualizations — are intended for **educational and analytical purposes only**, and should not be interpreted as definitive or official figures.*
 
@@ -683,21 +683,15 @@ def main():
             
             st.markdown(
                 '''
-                This project set out to explore deforestation in the Brazilian Amazon not just as a statistical phenomenon, but as a complex, evolving process shaped by environmental, economic, and social forces.  
-                Through structured data analysis and machine learning forecasting, we sought to uncover patterns, anticipate future trends, and highlight areas of concern—empowering stakeholders with actionable insights.
+                ### 🔍 Conclusion & Future Research
             
-                More than just a technical exercise, this work demonstrates how data can play a critical role in **environmental awareness and decision-making**.
-                From identifying seasonal spikes in forest loss to estimating future degradation under current trends, the project shows how computational tools can bring clarity to urgent ecological challenges.
+                This project demonstrated how public data and open-source tools can be combined to analyze and forecast daily deforestation in the Brazilian Amazon.
             
+                The exploratory analysis revealed seasonal trends and an association between deforestation, fire outbreaks, and rainfall — highlighting the complexity of the phenomenon. While no definitive long-term growth trend was observed, the high variability reinforces the need for proactive monitoring tools.
             
-                ### 🔮 Future directions
+                The predictive modeling workflow confirmed that a robust, well-validated LightGBM model can capture part of this variability and offer meaningful forecasts. These results suggest that machine learning can be a valuable ally in supporting early interventions and environmental policy decisions.
             
-                The opportunities for continued research and impact are vast:
-            
-                - **Policy simulations**: How might deforestation evolve under stricter environmental enforcement, or increased agricultural incentives?  
-                - **Localised insights**: Applying this analysis at the municipal or protected-area level to support regional planning.  
-                - **Cross-layer integration**: Combining satellite imagery, biodiversity data, and economic datasets for richer contextual understanding.  
-                - **Community involvement**: Translating analytical results into formats accessible to local communities and policymakers.
+                **Suggestions for future research** include incorporating detailed socioeconomic and land-use variables, exploring advanced deep learning models such as LSTM for temporal dependencies, and moving toward spatially disaggregated forecasts at the municipal or regional level.
                 '''
             )
             st.markdown('<br>', unsafe_allow_html=True)             # HTML spacer: line-breaks worth of vertical space
