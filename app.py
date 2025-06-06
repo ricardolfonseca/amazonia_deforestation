@@ -138,8 +138,6 @@ def main():
             </div>
             '''
             st.markdown(legend_html, unsafe_allow_html=True)
-
-        st.markdown('---')
         
         with st.spinner('Loading map… this may take up to a minute'):
             map_html = generate_heatmap_html(start_year, end_year, df_agg)
