@@ -2,6 +2,7 @@
 
 import os
 import streamlit as st
+from streamlit.components.v1 import html
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -99,7 +100,53 @@ def main():
     # 2) Placeholder for the interactive map
     st.subheader('🔍 Interactive Map')
     st.markdown('---')
-    st.markdown('**(Coming soon: this space will display the map with deforestation alerts.)**')
+
+    if os.path.exists(OUTPUT_AGG_COORDINATES):
+        df_agg = load_aggregated_coordinates()
+        min_year = int(df_agg['year'].min())
+        max_year = int(df_agg['year'].max())
+
+        col_slider, col_legend = st.columns([2, 1])
+        with col_slider:
+            start_year, end_year = st.slider(
+                'Select year range',
+                min_value=min_year,
+                max_value=max_year,
+                value=(min_year, max_year),
+                step=1
+            )
+        with col_legend:
+            legend_html = '''
+            <div style='text-align: center; margin-top: 20px;'>
+                <div style='
+                    display: inline-block;
+                    width: 80%;
+                    height: 20px;
+                    border: 1px solid #000;
+                    background: linear-gradient(to right, red, white);
+                '></div>
+                <div style='
+                    width: 80%;
+                    margin: 0 auto;
+                    font-size: 14px;
+                    display: flex;
+                    justify-content: space-between;
+                '>
+                    <span>High deforestation</span>
+                    <span>Low deforestation</span>
+                </div>
+            </div>
+            '''
+            st.markdown(legend_html, unsafe_allow_html=True)
+
+        st.markdown('---')
+        
+        with st.spinner('Loading map… this may take up to a minute'):
+            map_html = generate_heatmap_html(start_year, end_year, df_agg)
+            html(map_html, height=600)
+
+    else:
+        st.warning('Aggregated coordinates file not found.')
 
     st.markdown('<br>', unsafe_allow_html=True)             # HTML spacer: line-breaks worth of vertical space
 
@@ -691,7 +738,7 @@ def main():
             '''
             )
 
-            # At the bottom, show a “Give me a star” button linking to your GitHub
+            # “Give me a star” button linking to my GitHub
             st.markdown(
                 """
                 <div style="text-align:center; margin-top: 20px;">

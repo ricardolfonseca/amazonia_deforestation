@@ -41,7 +41,7 @@ OUTPUT_EDA_DIR = os.path.join(OUTPUT_DIR, 'EDA')
 OUTPUT_FORECAST_DIR = os.path.join(OUTPUT_DIR, 'forecast')
 
 # Parquet with aggregated coordinates
-OUTPUT_AGG_COORDINATES = os.path.join(BASE_DIR, 'assets', 'aggregated_coordinates.parquet')
+OUTPUT_AGG_COORDINATES = os.path.join(BASE_DIR, 'assets', 'agg_coordinates.parquet')
 
 # Earth Engine credentials
 EE_CREDENTIALS = os.getenv(
