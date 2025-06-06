@@ -28,11 +28,11 @@ def main():
         'assets/amazonia_forest_banner.jpg',
         use_container_width=True,
     )
-    st.title('🌳 Legal Amazon Deforestation Report')
+    st.title('🌳 Amazon Deforestation Report')
     st.markdown('---')
     st.markdown(
         '''
-        ### **Welcome to the Legal Amazon Deforestation Interactive Report!**
+        ### **Welcome to the Amazon Deforestation Report!**
 
         The Amazon Legal region covers about 59% of Brazil's territory and is home to one of the world's richest biodiversities.  
         Unfortunately, this area faces significant human pressure, especially from deforestation and wildfires, impacting climate, soil, and local communities.
@@ -44,7 +44,7 @@ def main():
         4. **Machine Learning**: Predictive models to anticipate deforestation trends.
         5. **Conclusion and Future Research**: Conclusions on the best performing model and suggestions about future studies.
 
-        > *Disclaimer: This project was developed as part of the final assessment for an MBA in Data Science, with the primary goal of applying and demonstrating the knowledge and skills acquired throughout the course. All data used was obtained from publicly available sources. While every effort was made to ensure data accuracy and integrity through proper preprocessing, integration, and validation techniques, **some inconsistencies or limitations may still be present**. Therefore, the results presented here — including predictions, trends, and visualizations — are intended for **educational and analytical purposes only**, and should not be interpreted as definitive or official figures.*
+        > *Disclaimer: This project was developed as part of the final assessment for an MBA in Data Science, with the primary goal of applying and demonstrating the knowledge and skills acquired throughout the course. All data used was obtained from publicly available sources. While every effort was made to ensure data accuracy and integrity through proper preprocessing, integration, and validation techniques, **some inconsistencies or limitations may still be present**. Therefore, the results presented here - including predictions, trends, and visualizations - are intended for **educational and analytical purposes only**, and should not be interpreted as definitive or official figures.*
 
         '''
     )
@@ -62,7 +62,7 @@ def main():
     st.markdown(
     '''
     The core dataset is based on the DETER deforestation alerts from INPE's TerraBrasilis platform, which provides georeferenced daily records of deforestation in the Legal Amazon.
-    Additional environmental and anthropogenic factors—such as wildfire hotspots, rainfall, and land use were extracted from Google Earth Engine and stored in cloud buckets for local processing.
+    Additional environmental and anthropogenic factors-such as wildfire hotspots, rainfall, and land use were extracted from Google Earth Engine and stored in cloud buckets for local processing.
     
     After acquiring the raw data, I performed ETL (Extract, Transform, Load) procedures:
     - Filtering and cleaning shapefiles for the Legal Amazon territory.
@@ -275,11 +275,9 @@ def main():
 
      # 4) Machine Learning
     st.subheader('🤖 Machine Learning - Deforestation Prediction')
-    st.markdown('---')
-
-    # st.markdown('#### Machine Learning: Forecasting Deforestation Trends')
     st.markdown(
     '''
+    ---
     The main goal of this project is to **anticipate deforestation in the Brazilian Legal Amazon**, enabling earlier interventions and more effective policymaking. To achieve this, we developed predictive models capable of estimating short-term forest loss based on historical patterns and environmental drivers.
 
     However, before modeling, it was crucial to **prepare the data efficiently**. This involved:
@@ -291,9 +289,6 @@ def main():
 
     With the cleaned and enriched dataset, we implemented and compared three different machine learning models:
     ''')
-
-
-
 
     # 4.1) Show three “cards” explaining each model, using the same colors as the legend
     col_lgbm, col_lasso, col_mlp = st.columns(3)
@@ -385,7 +380,6 @@ def main():
         ''')
     st.markdown('<br>', unsafe_allow_html=True)             # HTML spacer: line-breaks worth of vertical space
 
-
     # 4.2) Initialize session_state flags / objects if missing
     if 'forecast_obj' not in st.session_state:
         st.session_state.forecast_obj = None
@@ -396,8 +390,7 @@ def main():
     if 'round3_done' not in st.session_state:
         st.session_state.round3_done = False
 
-    
-    # === Round 1 (Always visible) ===
+    # --- Round 1 ---
     def run_round1():
         # Instead of retraining, load metrics for Round 1 from the three CSVs
         lgb_df = pd.read_csv(
@@ -413,8 +406,7 @@ def main():
             index_col=0
         )
 
-        # Extract the “Round 1” row for each model family
-        # Build a dict with the same structure as Forecast_amazonia would have produced:
+        # Extract the “Round 1” row for each model family and build a dictionary of results
         results = {
             'LightGBM': {
                 'MAE':   float(lgb_df.loc['Round 1', 'MAE']),
@@ -439,7 +431,7 @@ def main():
         
     with st.expander("ℹ️ Show configuration details for Round 1", expanded=False):
         st.markdown('''
-        **Round 1 – Baseline Models**
+        **Round 1 - Baseline Models**
     
         - All models are trained on raw features without normalization  
         - **LightGBM**: `n_estimators=100`, `learning_rate=0.1`  
@@ -452,7 +444,6 @@ def main():
     if not st.session_state.round1_done:
         st.button('Run Round 1', key='btn_run_r1', on_click=run_round1)
     else:
-        # (display logic remains exactly as before)
         col1, col2 = st.columns(2)
         with col1:
             plot_metrics_plotly(
@@ -474,7 +465,7 @@ def main():
             '''
         )
 
-    # === Round 2 (only after Round 1 completes) ===
+    # --- Round 2 ---
     if st.session_state.round1_done:
         def run_round2():
             # Load metrics for Round 2
@@ -514,7 +505,7 @@ def main():
             
         with st.expander("ℹ️ Show configuration details for Round 2", expanded=False):
             st.markdown('''
-            **Round 2 – Tuned & Normalized**
+            **Round 2 - Tuned & Normalized**
         
             - All input features are normalized (StandardScaler)  
             - **LightGBM**: `n_estimators=300`, `learning_rate=0.1`, `max_depth=12`  
@@ -550,7 +541,7 @@ def main():
                 '''
             )
 
-    # === Round 3 (only after Round 2 completes) ===
+    # --- Round 3 ---
     if st.session_state.round2_done:
         def run_round3():
             # Load metrics for Round 3
@@ -590,7 +581,7 @@ def main():
             
         with st.expander("ℹ️ Show configuration details for Round 3", expanded=False):
             st.markdown('''
-            **Round 3 – Advanced Techniques**
+            **Round 3 - Advanced Techniques**
         
             - **LightGBM**: same as Round 2 but with **early stopping (50 rounds)**  
             - **LassoCV**: automatic alpha selection using **TimeSeriesSplit (5 folds)**  
@@ -624,14 +615,12 @@ def main():
             )
 
 
-
-# === Final Recommendation (only after Round 3 completes) ===
-#
+    # --- Final Recommendation ---
     if st.session_state.round3_done:
         st.markdown('---')
         # Show a button; only when the user clicks does the recommendation appear
         if st.button('🎯 Show Final Recommendation', key='btn_final_rec'):
-            st.markdown('## 🎯 Final Recommendation and Conclusions')
+            st.markdown('## 🎯 Final Recommendation')
 
             st.markdown(
                 '''
@@ -684,11 +673,11 @@ def main():
                 ---
                 This project demonstrated how public data and open-source tools can be combined to analyze and forecast daily deforestation in the Brazilian Amazon.
             
-                The exploratory analysis revealed seasonal trends and an association between deforestation, fire outbreaks, and rainfall — highlighting the complexity of the phenomenon. While no definitive long-term growth trend was observed, the high variability reinforces the need for proactive monitoring tools.
+                The exploratory analysis revealed seasonal trends and an association between deforestation, fire outbreaks, and rainfall - highlighting the complexity of the phenomenon. While no definitive long-term growth trend was observed, the high variability reinforces the need for proactive monitoring tools.
             
                 The predictive modeling workflow confirmed that a robust, well-validated LightGBM model can capture part of this variability and offer meaningful forecasts. These results suggest that machine learning can be a valuable ally in supporting early interventions and environmental policy decisions.
             
-                **Suggestions for future research** include incorporating detailed socioeconomic and land-use variables, exploring advanced deep learning models such as LSTM for temporal dependencies, and moving toward spatially disaggregated forecasts at the municipal or regional level.
+                **Suggestions for future research** include incorporating detailed socioeconomic and land-use variables, exploring advanced deep learning models and moving toward spatially disaggregated forecasts at the municipal or regional level.
                 '''
             )
             st.markdown('<br>', unsafe_allow_html=True)             # HTML spacer: line-breaks worth of vertical space
