@@ -10,5 +10,5 @@ earthengine-project.json
 *old*
 
 # Big files - don't version control
-model/data/shapefile/
+model/data/shapefile/deter*
 model/data/raw/fires/

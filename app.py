@@ -97,54 +97,25 @@ def main():
     st.markdown('<br>', unsafe_allow_html=True)             # HTML spacer: line-breaks worth of vertical space
 
 
-    # 2) Placeholder for the interactive map
-    st.subheader('🔍 Interactive Map')
-    st.markdown('---')
+    # 2) Legal Amazon map
+    st.subheader('🗺️ Amazon Boundary Map')
+    st.markdown('''
+        ---
+        The map below highlights the official boundary of the **Brazilian Legal Amazon** (_Amazônia Legal_), 
+        a region defined by law for planning and environmental management purposes. It encompasses 
+        nine states and over 5 million square kilometers of tropical forest.
+        This is the geographical scope used throughout our analysis, serving as the spatial filter 
+        for all environmental and land use datasets processed in this project.
+        '''
+    )    
 
-    if os.path.exists(OUTPUT_AGG_COORDINATES):
-        df_agg = load_aggregated_coordinates()
-        min_year = int(df_agg['year'].min())
-        max_year = int(df_agg['year'].max())
-
-        col_slider, col_legend = st.columns([2, 1])
-        with col_slider:
-            start_year, end_year = st.slider(
-                'Select year range',
-                min_value=min_year,
-                max_value=max_year,
-                value=(min_year, max_year),
-                step=1
-            )
-        with col_legend:
-            legend_html = '''
-            <div style='text-align: center; margin-top: 20px;'>
-                <div style='
-                    display: inline-block;
-                    width: 80%;
-                    height: 20px;
-                    border: 1px solid #000;
-                    background: linear-gradient(to right, red, white);
-                '></div>
-                <div style='
-                    width: 80%;
-                    margin: 0 auto;
-                    font-size: 14px;
-                    display: flex;
-                    justify-content: space-between;
-                '>
-                    <span>High deforestation</span>
-                    <span>Low deforestation</span>
-                </div>
-            </div>
-            '''
-            st.markdown(legend_html, unsafe_allow_html=True)
-        
-        with st.spinner('Loading map… this may take up to a minute'):
-            map_html = generate_heatmap_html(start_year, end_year, df_agg)
+    try:
+        with st.spinner('Loading Amazon map...'):
+            gdf_amazon = load_amazon_boundary()
+            map_html = generate_amazon_map(gdf_amazon)
             html(map_html, height=600)
-
-    else:
-        st.warning('Aggregated coordinates file not found.')
+    except Exception as e:
+        st.warning(f'Could not load map: {e}')
 
     st.markdown('<br>', unsafe_allow_html=True)             # HTML spacer: line-breaks worth of vertical space
 
@@ -181,7 +152,7 @@ def main():
     st.markdown('<br>', unsafe_allow_html=True)             # HTML spacer: line-breaks worth of vertical space
     st.markdown(
     '''    
-    The dataset used in this analysis comprises **3 165 daily observations** from the Brazilian Legal Amazon region, from 2016/08 to 2025/04. It includes four key variables identified as relevant drivers or indicators of deforestation:
+    The dataset used in this analysis comprises **3 165 daily observations** from the Brazilian Legal Amazon region, from 2016-08 to 2025-04. It includes four key variables identified as relevant drivers or indicators of deforestation:
     - **Deforestation Area (ha)**: daily area in hectares where forest cover was lost.
     - **Fires**: number of fire hotspots detected.
     - **Precipitation (mm)**: daily rainfall levels.
@@ -260,7 +231,6 @@ def main():
                 )
                 cols[j].plotly_chart(fig_hist, use_container_width=True)
 
-    # st.markdown('#### Variable Distributions – Insights for Modeling')
     st.markdown(
     '''
     Understanding the distribution of each variable is a crucial step in preparing data for machine learning. It allows us to detect skewness, outliers, and scaling issues that can negatively affect model performance if not addressed.
@@ -298,7 +268,6 @@ def main():
                 )
                 cols[j].plotly_chart(fig_box, use_container_width=True)
     
-    # st.markdown('#### Boxplots – Outlier Detection and Variable Spread')
     st.markdown(
     '''
     Boxplots offer a compact visual summary of each variable's distribution, highlighting central tendency, dispersion, and the presence of outliers.
