@@ -243,7 +243,7 @@ def generate_amazon_map(_gdf_amazon):
     Generates a lightweight interactive map with the Legal Amazon boundary.
     Returns the rendered HTML for use in Streamlit.
     '''
-    m = folium.Map(location=[-5, -60], zoom_start=4)
+    m = folium.Map(location=[-11, -64], zoom_start=4)
 
     folium.GeoJson(
         _gdf_amazon,

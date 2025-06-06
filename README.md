@@ -64,12 +64,12 @@ The final goal is to build robust models capable of anticipating forest loss bas
 - Share insights on Amazon forest degradation based on public and official data
 - Predict near‐future deforestation trends to inform policy and conservation
 
-## 🚀 Interactive Dashboard (Streamlit)
+## 🚀 Interactive Report (Streamlit)
 
-The project now includes an interactive Streamlit dashboard (`app.py`) that presents:
+The project now includes an [interactive Streamlit report](https://amazoniadeforestation-rlfonseca.streamlit.app/) (`app.py`) that presents:
 
 1. **Introduction & Context**  
-2. **(Coming soon) Interactive Map** of deforestation alerts and fire hotspots  
+2. **Map of Legal Amazon Boundary**  
 3. **Exploratory Data Analysis** (EDA)  
    - Numeric summaries, correlation heatmap, annual trends, histograms, boxplots  
 4. **Machine Learning Forecasting**  
@@ -91,7 +91,6 @@ The project now includes an interactive Streamlit dashboard (`app.py`) that pres
    ```
 3. Your browser will open at `http://localhost:8501/`, where you can navigate through the sections and click each “Run Round” button to see results in real time.
 
-> ℹ️ The “Interactive Map” is currently a placeholder and will be added in a future update.
 
 ## ⚙️ Project Structure
 
@@ -157,8 +156,8 @@ model/data/raw/fires/
 - ✅ Data cleaning and ML dataset preparation  
 - ✅ Forecasting Amazon deforestation with LightGBM, Lasso, and MLP  
 - ✅ Interactive dashboard (Streamlit)  
-- 🔜 Add interactive map layer (deforestation over the years)  
-- 🔜 Deploy dashboard to a cloud service (Streamlit Cloud, Heroku, etc.)
+- ✅ Add interactive map layer (deforestation over the years)  
+- ✅ Deploy dashboard to a cloud service (Streamlit Cloud, Heroku, etc.)
 
 
 ## 📬 Author

@@ -35,12 +35,12 @@ def main():
         '''
         ### **Welcome to the Amazon Deforestation Report!**
 
-        The Amazon Legal region covers about 59% of Brazil's territory and is home to one of the world's richest biodiversities.  
+        The Amazon Legal region covers about 60% of Brazil's territory and is home to one of the world's richest biodiversities.  
         Unfortunately, this area faces significant human pressure, especially from deforestation and wildfires, impacting climate, soil, and local communities.
         
         Because environmental sustainability is a topic I deeply care about, I chose to explore this challenge using data - diving into satellite records, climate indicators, and land use patterns to produce a comprehensive and data-driven analysis in this report. Here, you will find:
         1. **Introduction**: Context about the Amazon Legal region and Report objectives.
-        2. **Interactive Map** (coming soon): Visualization of yearly loss of forest cover.
+        2. **Amazon Boundary Map**: Visualization of the official boundary of the Brazilian Legal Amazon.
         3. **Exploratory Data Analysis (EDA)**: Charts and tables showing correlations, distributions, and historical patterns.
         4. **Machine Learning**: Predictive models to anticipate deforestation trends.
         5. **Conclusion and Future Research**: Conclusions on the best performing model and suggestions about future studies.
@@ -113,7 +113,7 @@ def main():
         with st.spinner('Loading Amazon map...'):
             gdf_amazon = load_amazon_boundary()
             map_html = generate_amazon_map(gdf_amazon)
-            html(map_html, height=600)
+            html(map_html, height=400, width=800)
     except Exception as e:
         st.warning(f'Could not load map: {e}')
 
