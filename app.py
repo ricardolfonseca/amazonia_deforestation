@@ -200,16 +200,16 @@ def main():
     '''
     The annual aggregates displayed in the Report provide important temporal context of deforestation in the Legal Amazon.
 
-    1. **Deforestation Area (ha/year)**
+    1. **Deforestation Area (ha)**
     Between 2016 and 2024, deforestation shows strong variability. A sharp increase is observed in 2020, likely related to political and enforcement changes during that period. After a drop in 2021, deforestation rose again, peaking in 2024. The drop in 2025 is partial and reflects incomplete data collection for that year.
 
-    2. **Fire Incidence (hotspots/year)**
+    2. **Fire Incidence**
     The number of fire hotspots follows a similar yet noisier pattern, peaking in 2019 and 2024, closely matching deforestation surges. This alignment reinforces the hypothesis of a structural link between fire and forest clearing, as previously suggested in the correlation analysis.
 
-    3. **Precipitation (mm/year)**
+    3. **Precipitation (mm)**
     Rainfall exhibits less interannual volatility, but the lowest precipitation values in 2016 and 2025 coincide with above-average deforestation years. Notably, the dry year of 2024, which recorded reduced rainfall compared to previous years, aligns with the peak in both fires and forest loss. This pattern supports the negative correlation between precipitation and fire incidence observed earlier.
 
-    4. **Pasture Area (ha/day)**
+    4. **Pasture Area (ha)**
     Pasture area presents a steady upward trend from 2016 to 2024, reflecting continued land conversion for livestock and agriculture. Its' cumulative growth over time may help explain the structural pressures on forest cover. The drop in 2025 is due to data unavailability rather than an actual reduction in pasture area.
     ''')    
     st.markdown('<br>', unsafe_allow_html=True)             # HTML spacer: line-breaks worth of vertical space
@@ -235,16 +235,16 @@ def main():
     '''
     Understanding the distribution of each variable is a crucial step in preparing data for machine learning. It allows us to detect skewness, outliers, and scaling issues that can negatively affect model performance if not addressed.
 
-    1. **Deforestation Area (ha/year)**
+    1. **Deforestation Area (ha)**
     The distribution is **highly right-skewed**, with the vast majority of observations clustered at or near **zero hectares**. A small number of extreme events represent very high values, which are likely tied to cumulative or delayed reporting in the DETER alert system. These extreme values have **high influence on the mean**.
     
-    2. **Fire Incidence (hotspots/year)**
+    2. **Fire Incidence**
     Similarly, the number of daily fire hotspots follows a **long-tailed distribution**. 
     
-    3. **Precipitation (mm/year)**
+    3. **Precipitation (mm)**
     Unlike the other variables, precipitation exhibits a more **symmetrical, slightly left-skewed** distribution.
     
-    4. **Pasture Area (ha/day)**
+    4. **Pasture Area (ha)**
     The histogram reveals an **almost discrete distribution**, reflecting the **yearly update frequency** of this variable, where each value corresponds to a year.  
     ''')
     st.markdown('<br>', unsafe_allow_html=True)             # HTML spacer: line-breaks worth of vertical space
@@ -272,16 +272,16 @@ def main():
     '''
     Boxplots offer a compact visual summary of each variable's distribution, highlighting central tendency, dispersion, and the presence of outliers.
 
-    1. **Deforestation Area (ha/year)**
+    1. **Deforestation Area (ha)**
     This variable displays an **extreme number of outliers**, far above the upper quartile. While the median is near zero (confirming that most days register no deforestation alerts), there are a significant number of high-impact events. 
 
-    2. **Fire Incidence (hotspots/year)**
+    2. **Fire Incidence**
     The distribution of fire hotspots also contains **many high-end outliers**, especially above the 75th percentile. The central box is compressed, indicating that **most values are tightly concentrated** below ~100.  
 
-    3. **Precipitation (mm/year)**
+    3. **Precipitation (mm)**
     Precipitation shows a **more symmetrical boxplot**, with a wide interquartile range. Outliers are present but not as extreme as in the previous variables.
 
-    4. **Pasture Area (ha/day)**
+    4. **Pasture Area (ha)**
     This boxplot reflects the **annual update cycle** of this variable: the values are concentrated in **batches**, forming a stepwise pattern. There are **no visible outliers**, and the interquartile range is narrow.
     ''')
     st.markdown('<br>', unsafe_allow_html=True)             # HTML spacer: line-breaks worth of vertical space
