@@ -4,7 +4,6 @@ import os
 import streamlit as st
 from streamlit.components.v1 import html
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 import plotly.express as px
 import plotly.graph_objects as go

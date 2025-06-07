@@ -1,6 +1,5 @@
 # Deforestation_amazonia.py
 
-import os
 import geopandas as gpd
 import pandas as pd
 

@@ -8,7 +8,7 @@ from shapely.geometry import mapping
 
 from config import *
 
-class Fires_Amazonia:
+class Fires_amazonia:
     '''
     Processes fire hotspots in the Legal Amazonia for the specified period,
     generating a CSV with the daily count of FIRMS alerts.

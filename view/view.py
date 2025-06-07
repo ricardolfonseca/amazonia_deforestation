@@ -4,7 +4,7 @@ import os
 import pandas as pd
 
 from model.Deforestation_amazonia import *
-from model.Fires_Amazonia import *
+from model.Fires_amazonia import *
 from model.Precipitation_amazonia import *
 from model.Pasture_amazonia import *
 from controller.controller import *
@@ -46,7 +46,7 @@ def main():
                 df_fires = pd.read_csv(DF_FIRES)
             else:
                 print('=== Processing fires ===')
-                df_fires = Fires_Amazonia().process_shapefile()
+                df_fires = Fires_amazonia().process_shapefile()
             print(df_fires.head())
 
             # Precipitation
@@ -134,4 +134,4 @@ def main():
 
     print()
 
-    print("\n🏁 End of pipeline.\n")
+    print("\n🏁 End of pipeline.\nRun ´streamlit run app.py´ or visit https://amazoniadeforestation-rlfonseca.streamlit.app/ fot the complete Report.")

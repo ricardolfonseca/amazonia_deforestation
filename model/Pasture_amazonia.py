@@ -1,6 +1,5 @@
 # model/pasture_amazonia.py
 
-import os
 import ee
 import pandas as pd
 import geopandas as gpd
