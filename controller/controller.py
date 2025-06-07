@@ -237,7 +237,7 @@ def load_amazon_boundary():
     return gpd.read_file(shapefile_path)
 
 
-@st.cache_data(show_spinner=False)                  # Cache the GeoDataFrame to avoid reloading on every run
+@st.cache_data(show_spinner=False)
 def generate_amazon_map(_gdf_amazon):
     '''
     Generates a lightweight interactive map with the Legal Amazon boundary.
@@ -247,7 +247,14 @@ def generate_amazon_map(_gdf_amazon):
 
     folium.GeoJson(
         _gdf_amazon,
-        name='Legal Amazon'
+        name='Legal Amazon',
+        tooltip=folium.GeoJsonTooltip(fields=['sprclasse']),
+        style_function=lambda feature: {
+            'color': '#2e7d32',        # forest green border
+            'weight': 2,
+            'fillColor': '#a5d6a7',    # light green fill
+            'fillOpacity': 0.4         # semi-transparent
+        }
     ).add_to(m)
 
     folium.LayerControl().add_to(m)
