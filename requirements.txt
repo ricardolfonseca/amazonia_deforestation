@@ -10,8 +10,5 @@ google-cloud-storage
 scikit-learn
 lightgbm
 shapely
-openpyxl
-unidecode
 plotly
 xgboost
-mlflow

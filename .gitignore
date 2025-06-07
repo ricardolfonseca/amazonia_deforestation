@@ -3,11 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Earth Engine credentials and other temps
+# Earth Engine credentials
 earthengine-project.json
-
-# Older files
-*old*
 
 # Big files - don't version control
 model/data/shapefile/deter*
