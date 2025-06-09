@@ -247,7 +247,6 @@ def generate_amazon_map(_gdf_amazon):
     folium.GeoJson(
         _gdf_amazon,
         name='Legal Amazon',
-        tooltip=folium.GeoJsonTooltip(fields=['sprclasse']),
         style_function=lambda feature: {
             'color': '#2e7d32',        # forest green border
             'weight': 2,
