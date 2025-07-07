@@ -134,4 +134,4 @@ def main():
 
     print()
 
-    print("\n🏁 End of pipeline.\nRun ´streamlit run app.py´ or visit https://amazoniadeforestation-rlfonseca.streamlit.app/ fot the complete Report.")
+    print("\n🏁 End of pipeline.\nRun ´streamlit run app.py´ or visit https://amazoniadeforestation-rlfonseca.streamlit.app/ for the complete Report.")
