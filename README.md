@@ -30,7 +30,7 @@ This project brings together several key subjects from my MBA in Data Science:
 - **Geospatial Analysis**  
   - Shapefiles, raster layers, and temporal‐spatial pattern discovery
 - **Data Visualization**  
-  - Interactive dashboard built with Streamlit (map placeholder pending)
+  - Interactive Report built with Streamlit
 
 ## 🤖 Machine Learning Forecasting
 
